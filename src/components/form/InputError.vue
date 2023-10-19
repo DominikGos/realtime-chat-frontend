@@ -1,16 +1,13 @@
 <script setup lang="ts">
-defineProps({
-  value: {
-    type: String,
-  },
-});
+defineProps<{
+  errors: string[]
+}>();
 </script>
 
 <template>
   <div class="text-red-500 text-sm">
-    <span v-if="value">{{ value }}</span>
-    <span v-else>
-      <slot></slot>
+    <span v-for="error in errors" :key="error">
+      {{ error }}
     </span>
   </div>
 </template>

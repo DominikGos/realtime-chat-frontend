@@ -37,24 +37,24 @@ async function submit() {
       <div class="flex flex-col gap-3">
         <InputLabel>E-mail</InputLabel>
         <CustomInput type="email" v-model="userCredentials.email" :invalid="errors?.email" required autocomplete="email"/>
-        <InputError v-if="errors?.email">{{ errors.email }}</InputError>
+        <InputError v-if="errors?.email" :errors="errors.email"/>
       </div>
       <div class="flex gap-2">
         <div class="flex flex-col gap-3 w-full">
           <InputLabel>First name</InputLabel>
           <CustomInput type="text" v-model="userCredentials.first_name" :invalid="errors?.first_name" required/>
-          <InputError v-if="errors?.first_name">{{ errors.first_name }}</InputError>
+          <InputError v-if="errors?.first_name" :errors="errors.first_name"/>
         </div>
         <div class="flex flex-col gap-3 w-full">
           <InputLabel>Last name</InputLabel>
           <CustomInput type="text" v-model="userCredentials.last_name" :invalid="errors?.last_name" required/>
-          <InputError v-if="errors?.last_name">{{ errors.last_name }}</InputError>
+          <InputError v-if="errors?.last_name" :errors="errors.last_name"/>
         </div>
       </div>
       <div class="flex flex-col gap-3">
         <InputLabel>Password</InputLabel>
         <CustomInput type="password" v-model="userCredentials.password" :invalid="errors?.password" required/>
-        <InputError v-if="errors?.password">{{ errors.password }}</InputError>
+        <InputError v-if="errors?.password" :errors="errors.password"/>
       </div>
       <div>
         <CustomButton :color="'blue'" type="submit" :loading="formProcessing">Register</CustomButton>

@@ -1,5 +1,9 @@
 {
   "files": [],
+  "compilerOptions": {
+    "lib": ["es6", "dom", "es2017"],
+    "target": "es5",
+  },
   "references": [
     {
       "path": "./tsconfig.node.json"

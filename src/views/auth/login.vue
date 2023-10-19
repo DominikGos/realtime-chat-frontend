@@ -34,13 +34,13 @@ async function submit() {
       </header>
       <div class="flex flex-col gap-3">
         <InputLabel>E-mail</InputLabel>
-        <CustomInput type="email" v-model="userCredentials.email" :invalid="errors?.email" required/>
-        <InputError v-if="errors?.email">{{ errors.email }}</InputError>
+        <CustomInput type="email" v-model="userCredentials.email" :invalid="errors?.email" required autocomplete="email"/>
+        <InputError v-if="errors?.email" :errors="errors.email"/>
       </div>
       <div class="flex flex-col gap-3">
         <InputLabel>Password</InputLabel>
         <CustomInput type="password" v-model="userCredentials.password" :invalid="errors?.password" required/>
-        <InputError v-if="errors?.password">{{ errors.password }}</InputError>
+        <InputError v-if="errors?.password" :errors="errors.password"/>
       </div>
       <div>
         <CustomButton :color="'blue'" type="submit" :loading="formProcessing">Login</CustomButton>

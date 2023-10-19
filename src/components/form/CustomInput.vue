@@ -3,16 +3,18 @@ import { computed } from 'vue';
 
 const props = defineProps<{
   modelValue: string,
-  invalid?: boolean | string
+  invalid?: boolean | string | string[]
 }>();
 
 const emit = defineEmits(['update:modelValue']);
 
 const classes = computed<string>(() => {
-  let classes = 'w-full bg-gray-100 rounded-md p-2 shadow-md focus:outline-none border border-transparent transition duration-300 ease-in  focus:border-gray-300 focus:bg-white focus:shadow-none '
+  let classes = 'w-full bg-gray-100 rounded-md p-2 shadow-md focus:outline-none transition duration-300 ease-in focus:bg-white focus:shadow-none '
   
   if(props.invalid) 
-    classes += 'border-red-500 shadow-none bg-white focus:border-red-500'
+    classes += 'border border-red-500 shadow-none bg-white focus:border-red-500';
+  else 
+    classes += 'border border-transparent focus:border-gray-300';
 
   return classes;
 });
