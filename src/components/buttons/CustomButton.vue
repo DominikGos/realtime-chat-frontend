@@ -8,11 +8,17 @@ const props = defineProps({
     validator(value) {
       return ['red', 'blue', 'gray', 'green'].includes(value as string)
     }
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   }
-})
+});
 
-const classes = computed(() => {
-  let classes: string = 'rounded-md focus:ring-2 hover:cursor-pointer transition-all p-2 '
+const loadingSpinnerGifPath: string = '/Rolling-1s-200px.gif';
+
+const classes = computed<String>(() => {
+  let classes: string = 'rounded-md focus:ring-2 hover:cursor-pointer transition-all p-2 flex items-center gap-2 '
 
   switch (props.color) {
     case 'blue':
@@ -36,5 +42,6 @@ const classes = computed(() => {
 <template>
   <button :class="classes">
     <slot></slot>
+    <img v-if="loading" class="w-4" :src="loadingSpinnerGifPath"> 
   </button>
 </template>

@@ -17,11 +17,13 @@ const userCredentials = ref({
 
 async function submit() {
   formProcessing.value = auth.processing;
+  console.log(formProcessing.value);
   
   await auth.login(userCredentials.value as User)
   
   errors.value = auth.errors;
   formProcessing.value = auth.processing;
+  console.log(formProcessing.value);
 }
 
 </script>
@@ -43,12 +45,12 @@ async function submit() {
         <InputError v-if="errors?.password">{{ errors.password }}</InputError>
       </div>
       <div>
-        <CustomButton :color="'blue'" class="flex items-center gap-2" type="submit">Login <img v-if="formProcessing" class="w-4" src="/Rolling-1s-200px.gif"> </CustomButton>
+        <CustomButton :color="'blue'" type="submit" :loading="formProcessing">Login</CustomButton>
       </div>
     </form>
     <p class="text-sm mt-5">Don't have an account?
       <span class="text-cyan-400">
-        <RouterLink :to="{ name: 'register' }">register</RouterLink>
+        <RouterLink :to="{ name: 'register'}">register</RouterLink>
       </span>
     </p>
   </div>
