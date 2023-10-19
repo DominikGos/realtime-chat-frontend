@@ -23,5 +23,5 @@ function handleInputEvent(event: Event) {
 </script>
 
 <template>
-  <input :value="modelValue" @input="handleInputEvent" :class="classes" autocomplete="on"/>
+  <input :value="modelValue" @input="handleInputEvent" :class="classes"/>
 </template>
