@@ -1,10 +1,10 @@
 export default interface User {
-    uid?: string,
+    id?: number,
     email: string,
-    firstName: string,
-    lastName: string,
+    first_name: string,
+    last_name: string,
     password?: string,
-    avatarPath?: string,
-    createdAt?: Date,
-    signedIn?: Date,
+    avatar_link?: string,
+    created_at?: Date,
+    signed_in?: Date,
 };
