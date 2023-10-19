@@ -6,6 +6,7 @@ import CustomButton from '../../components/buttons/CustomButton.vue';
 import { ref } from 'vue';
 import type User from '@/interfaces/User';
 import AuthService from '@/services/AuthService';
+import { store } from '@/store';
 
 const auth = new AuthService;
 const errors = ref();
@@ -15,6 +16,8 @@ const userCredentials = ref({
   password: '',
 })
 
+console.log(store.state.auth.user);
+
 async function submit() {
   formProcessing.value = true;
   
@@ -22,6 +25,12 @@ async function submit() {
   
   errors.value = auth.errors;
   formProcessing.value = auth.processing;
+
+  if(errors.value === undefined) {
+    console.log(store.state.auth.user);
+    console.log(auth.data);
+    
+  }
 }
 
 </script>
@@ -43,7 +52,7 @@ async function submit() {
         <InputError v-if="errors?.password" :errors="errors.password"/>
       </div>
       <div>
-        <CustomButton :color="'blue'" type="submit" :loading="formProcessing">Login</CustomButton>
+        <CustomButton :color="'blue'" type="submit" :loading="formProcessing" :disabled="formProcessing">Login</CustomButton>
       </div>
     </form>
     <p class="text-sm mt-5">Don't have an account?
