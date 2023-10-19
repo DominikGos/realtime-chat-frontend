@@ -16,14 +16,12 @@ const userCredentials = ref({
 })
 
 async function submit() {
-  formProcessing.value = auth.processing;
-  console.log(formProcessing.value);
+  formProcessing.value = true;
   
   await auth.login(userCredentials.value as User)
   
   errors.value = auth.errors;
   formProcessing.value = auth.processing;
-  console.log(formProcessing.value);
 }
 
 </script>

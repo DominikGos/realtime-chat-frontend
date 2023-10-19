@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const props = defineProps({
-  modelValue: String,
-  invalid: Boolean
-});
+const props = defineProps<{
+  modelValue: string,
+  invalid?: boolean | string
+}>();
 
 const emit = defineEmits(['update:modelValue']);
 
