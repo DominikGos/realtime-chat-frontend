@@ -27,8 +27,8 @@ async function submit() {
   formProcessing.value = auth.processing;
 
   if(errors.value === undefined) {
-    const user: User = auth.data?.user;
-    store.commit('setUser', {...user, ...{token: auth.data?.token}})
+    const user: User = {...auth.data?.user, ...{token: auth.data?.token}};
+    store.commit('setUser', user)
     auth.saveUserInTheBrowser(user);
     router.push({name: 'home'});
   }
