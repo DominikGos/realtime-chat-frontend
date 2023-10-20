@@ -9,7 +9,13 @@ const state: AuthState = {
 }
 
 const auth = {
-    state
+    state,
+
+    mutations: {
+        setUser(state: AuthState, user?: User): void {
+            state.user = user;
+        }
+    }
 }
 
 export default auth;

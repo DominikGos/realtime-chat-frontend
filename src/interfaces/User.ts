@@ -7,4 +7,5 @@ export default interface User {
     avatar_link?: string,
     created_at?: Date,
     signed_in?: Date,
+    token?: string,
 };

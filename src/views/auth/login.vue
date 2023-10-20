@@ -7,16 +7,16 @@ import { ref } from 'vue';
 import type User from '@/interfaces/User';
 import AuthService from '@/services/AuthService';
 import { store } from '@/store';
+import { useRouter } from 'vue-router';
 
 const auth = new AuthService;
 const errors = ref();
 const formProcessing = ref();
+const router = useRouter();
 const userCredentials = ref({
   email: '',
   password: '',
 })
-
-console.log(store.state.auth.user);
 
 async function submit() {
   formProcessing.value = true;
@@ -27,9 +27,10 @@ async function submit() {
   formProcessing.value = auth.processing;
 
   if(errors.value === undefined) {
-    console.log(store.state.auth.user);
-    console.log(auth.data);
-    
+    const user: User = auth.data?.user;
+    store.commit('setUser', {...user, ...{token: auth.data?.token}})
+    auth.saveUserInTheBrowser(user);
+    router.push({name: 'home'});
   }
 }
 

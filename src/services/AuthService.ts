@@ -9,4 +9,19 @@ export default class AuthService extends FormService {
     public async register(user: User): Promise<void> {
         await this.send('post', '/register', user)
     }
+
+    public saveUserInTheBrowser(user: User): void {
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
+    public getUserFromTheBrowser(): User {
+        const userString: string = localStorage.getItem('user')!;
+        const user: User = JSON.parse(userString) as User;
+        
+        return user;
+    }
+
+    public removeUserFromTheBrowser(): void {
+        localStorage.removeItem('user');
+    }
 }
