@@ -20,6 +20,10 @@ export default class AuthService extends FormService {
         await this.send('post', '/register', user)
     }
 
+    public async logout(): Promise<void> {
+        await this.send('post', '/logout', undefined)
+    }
+
     public async getAuthUser(): Promise<void> {
         await this.send('get', '/user');
     }
