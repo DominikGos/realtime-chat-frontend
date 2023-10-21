@@ -6,8 +6,10 @@ import CustomButton from '../../components/buttons/CustomButton.vue';
 import { ref } from 'vue';
 import type User from '../../interfaces/User';
 import AuthService from '@/services/AuthService';
+import { useRouter } from 'vue-router';
 
 const auth = new AuthService;
+const router = useRouter();
 const errors = ref();
 const formProcessing = ref();
 const userCredentials = ref({
@@ -22,6 +24,7 @@ async function submit() {
   
   await auth.register(userCredentials.value as User)
   
+  router.push({name: 'login'});
   errors.value = auth.errors;
   formProcessing.value = auth.processing;
 }
