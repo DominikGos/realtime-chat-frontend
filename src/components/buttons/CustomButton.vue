@@ -40,7 +40,7 @@ const classes = computed<String>(() => {
 </script>
 
 <template>
-  <button :class="classes">
+  <button :class="classes" :disabled="loading">
     <slot></slot>
     <img v-if="loading" class="w-4" :src="loadingSpinnerGifPath"> 
   </button>

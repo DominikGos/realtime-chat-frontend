@@ -57,7 +57,7 @@ async function submit() {
         <InputError v-if="errors?.password" :errors="errors.password"/>
       </div>
       <div>
-        <CustomButton :color="'blue'" type="submit" :loading="formProcessing" :disabled="formProcessing">Register</CustomButton>
+        <CustomButton :color="'blue'" type="submit" :loading="formProcessing">Register</CustomButton>
       </div>
     </form>
     <p class="text-sm mt-5">Already have an account?
