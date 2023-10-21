@@ -5,7 +5,6 @@ import router from './router';
 import axios from 'axios';
 import { store } from './store';
 import AxiosService from './services/AxiosService';
-import AuthService from './services/AuthService';
 
 const axiosService = new AxiosService;
 axiosService.setDefaults();
