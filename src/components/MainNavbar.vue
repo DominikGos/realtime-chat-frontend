@@ -50,12 +50,12 @@ async function logout(): Promise<void> {
     </div>
     <ul class="flex gap-5 justify-evenly w-full lg:flex-col lg:h-3/5 lg:items-center">
       <li>
-        <NavButton>
+        <NavButton :active="store.state.components.panel.name === 'Chats'" @click="store.commit('setPanel', 'Chats')">
           <i class="fa-solid fa-message"></i>
         </NavButton>
       </li>
       <li>
-        <NavButton>
+        <NavButton :active="store.state.components.panel.name === 'Users'" @click="store.commit('setPanel', 'Users')">
           <i class="fa-solid fa-users"></i>
         </NavButton>
       </li>
