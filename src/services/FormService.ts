@@ -2,8 +2,8 @@ import axios, { AxiosError, type AxiosResponse } from 'axios';
 
 export default class FormService {
     public processing: boolean = false;
-    public data?: object;
-    public errors?: object;
+    public data?: any;
+    public errors?: any;
 
     public async send(method: string, endpoint: string, data?: object): Promise<void> {
         this.processing = true;

@@ -10,8 +10,8 @@ import { ref } from 'vue';
   <div class="flex flex-col-reverse h-screen lg:flex-row">
     <MainNavbar/>
     <Panel/>
-    <Transition name="fade" mode="out-in">
+    <!-- <Transition name="fade" mode="out-in">
       <Chat/>
-    </Transition>
+    </Transition> -->
   </div>
 </template>

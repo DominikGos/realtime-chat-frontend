@@ -3,7 +3,7 @@ import type User from "@/interfaces/User";
 const components = {
     state: {
         panel: {
-            name: 'Chats'
+            name: 'Users'
         },
     },
 
