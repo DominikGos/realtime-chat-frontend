@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import Avatar from '../Avatar.vue';
+import { store } from '@/store';
+
+function closeChat(): void {
+  store.commit('setChat', null);
+}
 </script>
 
 <template>
   <header class="w-full border-b-2 p-3 border-gray-100 flex justify-center items-center relative">
-    <button class="absolute left-0 top-0 p-3 h-full flex items-center">
+    <button @click="closeChat" class="absolute left-0 top-0 p-3 h-full flex items-center">
       <i class="fa-solid fa-caret-left text-cyan-400"></i>
     </button>
     <div class="flex items-center gap-2">
