@@ -1,9 +1,10 @@
+import type Message from "./Message";
 import type User from "./User";
 
 export default interface Chat {
     id: number,
     created_at: string,
     updated_at: string,
-    last_message?: any, //add message interface,
+    last_message?: Message, //add message interface,
     users: User[],
 }

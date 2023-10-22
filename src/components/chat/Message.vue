@@ -1,14 +1,17 @@
 <script setup lang="ts">
+import type Message from '@/interfaces/Message';
 import { computed } from 'vue';
 
-const props = defineProps({
-  message: Object,
-});
+const props = defineProps<{
+  message: Message,
+  userIsAuthor: Boolean,
+}>();
+
 
 const classes = computed(() => {
   let classes = 'p-3 rounded-md '
 
-  if(props.message.userIsAuthor) {
+  if(props.userIsAuthor) {
     classes += ' bg-cyan-400 text-white';
   } else {
     classes += ' bg-gray-200';
@@ -21,7 +24,7 @@ const classes = computed(() => {
 <template>
   <div :class="classes" style="word-break: break-word;">
     <p>
-      Message content Message content MessagecontentMessagecontentMessage content Message content Message content
+      {{ message.text }}
     </p>
   </div>
 </template>

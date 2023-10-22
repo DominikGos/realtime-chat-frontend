@@ -6,19 +6,26 @@ import { ref, watch } from 'vue';
 import { store } from '@/store';
 import type Chat from '@/interfaces/Chat';
 import type User from '@/interfaces/User';
+import type Message from '@/interfaces/Message';
 import Avatar from '../Avatar.vue';
+import MessageService from '@/services/MessageService'
 
 const chat = ref<Chat>();
 const friend = ref<User>();
+const messageService = new MessageService;
+const messages = ref<Message[]>();
+let messagesOffset = 0;
 
 watch(
   () => store.state.components.chat,
-  (chatResource) => {
-    chat.value = chatResource    
-
-    friend.value = setFriend(chat.value!.users);
+  async (chatResource) => {
+    chat.value = chatResource
     
-  }, { immediate: true}
+    friend.value = setFriend(chat.value!.users);
+    await loadMessages(messagesOffset);
+    messages.value = messageService.data.messages;
+
+  }, { immediate: true }
 )
 
 function setFriend(users: User[]): User {
@@ -29,27 +36,23 @@ function setFriend(users: User[]): User {
   return friends[0];
 }
 
-const messageOne = ref({
-  userIsAuthor: true,
-});
-
-const messageTwo = ref({
-  userIsAuthor: false,
-});
+async function loadMessages(start: number) {
+  await messageService.getMessages(chat.value!.id, start);
+}
 </script>
 
 <template>
   <div class="w-screen h-screen fixed right-0 top-0 bg-white  flex flex-col lg:static lg:border-l-2 lg:border-gray-100">
     <ChatHeader>
       <template v-slot:members>
-        <Avatar :size="'small'" :avatar="friend?.avatar_link"/>
+        <Avatar :size="'small'" :avatar="friend?.avatar_link" />
         <p class=" font-medium">{{ friend?.first_name }} {{ friend?.last_name }}</p>
       </template>
     </ChatHeader>
-    <main class="h-full w-full flex flex-col-reverse gap-3 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300">
-      <MessageWrapper :message="messageOne"/>
-      <MessageWrapper :message="messageTwo"/>
+    <main
+      class="h-full w-full flex flex-col-reverse gap-3 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300">
+      <MessageWrapper v-for="message in messages" :key="message.id" :message="message"/>
     </main>
-    <ChatFooter/>
+    <ChatFooter />
   </div>
 </template>
