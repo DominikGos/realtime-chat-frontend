@@ -8,8 +8,7 @@ import Avatar from '../Avatar.vue';
       <i class="fa-solid fa-caret-left text-cyan-400"></i>
     </button>
     <div class="flex items-center gap-2">
-      <Avatar :size="'small'"/>
-      <p class=" font-medium">User Name</p>
+      <slot name="members"></slot>
     </div>
     <div class="absolute right-0 top-0 flex items-center gap-3 h-full p-3">
       <button>

@@ -1,4 +1,4 @@
-import type User from "@/interfaces/User";
+import type Chat from "@/interfaces/User";
 
 const components = {
     state: {
@@ -14,7 +14,7 @@ const components = {
             state.panel.name = name;
         },
 
-        setChat(state: any, chat: any): void { //create Chat interface
+        setChat(state: any, chat: Chat): void { //create Chat interface
             state.chat = chat;
         }
     }

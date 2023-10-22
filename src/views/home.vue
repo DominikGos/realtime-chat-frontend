@@ -11,7 +11,7 @@ import { store } from '@/store';
     <MainNavbar/>
     <Panel/>
     <Transition name="fade" mode="out-in">
-      <Chat v-if="store.state.components.chat"/>
+      <Chat v-if="store.state.components.chat" :key="store.state.components.chat.id"/>
     </Transition>
   </div>
 </template>
