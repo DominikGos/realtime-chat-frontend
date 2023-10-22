@@ -2,30 +2,31 @@
 import PanelItem from './PanelItem.vue';
 import Avatar from '../Avatar.vue';
 import { ref, onBeforeMount } from 'vue';
+import { store } from '@/store';
 import type User from '@/interfaces/User';
 import UserService from '@/services/UserService';
+import ChatService from '@/services/ChatService';
 
-const users = ref<User[]>([]);
 const userService = new UserService;
+const chatService = new ChatService;
+const users = ref<User[]>([]);
 const loading = ref(false);
-const newUsersLength = ref();
 let offset = 0;
 const limit = 15;
 
 await loadUsers(offset);
 
-async function loadUsers(start: number) {
+async function loadUsers(start: number): Promise<void> {
   loading.value = true;
 
   await userService.getUsers(start);
 
   loading.value = false;
   offset += limit;
-  newUsersLength.value = userService.data.users.length;
   users.value = [...users.value, ...userService.data.users];
 }
 
-function loadAfterScroll(e: any) {  
+function loadAfterScroll(e: any): void {  
   setTimeout(async () => {
     if(loading.value) {
       return;
@@ -38,11 +39,17 @@ function loadAfterScroll(e: any) {
     }
   }, 1000);
 }
+
+async function createChat(friendId: number): Promise<void> {
+  await chatService.createChat(friendId);
+
+  store.commit('setChat', chatService.data.chat);
+}
 </script>
 
 <template>
   <div @scroll="loadAfterScroll" class="flex flex-col gap-3 pb-5 overflow-y-scroll h-[calc(100%-94px)] scrollbar-thin scrollbar-thumb-gray-300 overflow-hidden">
-    <PanelItem v-for="user in users" :key="user.id">
+    <PanelItem v-for="user in users" :key="user.id" @click="createChat(user.id!)">
       <template v-slot:start>
         <Avatar :size="'medium'" :avatar="user.avatar_link" />
       </template>

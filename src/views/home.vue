@@ -3,15 +3,15 @@ import Panel from '../components/panels/Panel.vue';
 import MainNavbar from '../components/MainNavbar.vue';
 import Chat from '../components/chat/Chat.vue';
 import { ref } from 'vue';
-
+import { store } from '@/store';
 </script>
 
 <template>
   <div class="flex flex-col-reverse h-screen lg:flex-row">
     <MainNavbar/>
     <Panel/>
-    <!-- <Transition name="fade" mode="out-in">
-      <Chat/>
-    </Transition> -->
+    <Transition name="fade" mode="out-in">
+      <Chat v-if="store.state.components.chat"/>
+    </Transition>
   </div>
 </template>
