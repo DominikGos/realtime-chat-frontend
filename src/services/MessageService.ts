@@ -1,7 +1,12 @@
 import FormService from "./FormService";
+import type MessageInterface from '@/interfaces/Message';
 
 export default class Message extends FormService {
     public async getMessages(chatId: number, start: number): Promise<void> {
         await this.send('get', `/chats/${chatId}/messages?start=${start}`)
+    }
+
+    public async createMessage(chatId: number, message: MessageInterface): Promise<void> {
+        await this.send('post', `/chats/${chatId}/messages`, message);
     }
 }

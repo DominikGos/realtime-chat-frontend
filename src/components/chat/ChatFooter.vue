@@ -1,16 +1,34 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import FormFile from './FormFile.vue'
+import type Message from '@/interfaces/Message';
+import { store } from '@/store';
+import MessageService from '@/services/MessageService';
+import type Chat from '@/interfaces/Chat';
+
+const messageService = new MessageService;
+const chat: Chat = store.state.components.chat;
+const message = ref<Message>({
+  user: store.state.auth.user,
+  files: [],
+});
 
 const showSendButton = ref(false);
-const message = ref({
-  text: '',
-  files: [
-    /*  {
-       path: 'file'
-     } */
-  ],
-});
+const messageProccesing = ref(false);
+
+async function sendMessage() {
+  messageProccesing.value = true;
+
+  await messageService.createMessage(chat.id, message.value)  
+  
+  messageProccesing.value = false;
+
+  if( ! messageService.errors) {
+    message.value.text = undefined;
+    message.value.files = [];
+    message.value.created_at = undefined;
+  }
+}
 
 function changeSendButtonVisibility(e: any): void {
   if (e.target.value.length > 0)
@@ -45,7 +63,7 @@ const textInputClasses = computed(() => {
 </script>
 
 <template>
-  <form @submit.prevent class="flex gap-3 items-end w-full p-3 border-t-2 border-gray-100 bg-white ">
+  <form @submit.prevent="sendMessage" class="flex gap-3 items-center w-full p-3 border-t-2 border-gray-100 bg-white ">
     <div class="flex gap-2 items-center">
       <input @change="addFile" type="file" ref="file" id="file" class="hidden" multiple />
       <label for="file" class="cursor-pointer">
@@ -53,8 +71,7 @@ const textInputClasses = computed(() => {
       </label>
     </div>
     <div class="flex flex-col-reverse w-full overflow-hidden">
-      <input @input="changeSendButtonVisibility" :class="textInputClasses" type="text"
-        placeholder="Type your message ..." />
+      <input @input="changeSendButtonVisibility" v-model="message.text" :class="textInputClasses" type="text" placeholder="Type your message ..." />
       <div v-if="message.files.length > 0"
         class="flex gap-2 peer-focus:bg-white peer-focus:border-t peer-focus:border-r peer-focus:border-l peer-focus:border-b-transparent border border-transparent  peer-focus:border-gray-300 transition duration-300 ease-in overflow-x-auto bg-gray-100 p-3 rounded-tl-2xl rounded-tr-2xl scrollbar-thin scrollbar-thumb-gray-300">
         <FormFile v-for="file in message.files" @removeFile="removeFile" />
@@ -62,7 +79,8 @@ const textInputClasses = computed(() => {
     </div>
     <Transition name="fade">
       <button v-if="showSendButton">
-        <i class="fa-solid fa-paper-plane text-cyan-400"></i>
+        <p v-if="messageProccesing">Loading ...</p>
+        <i v-else class="fa-solid fa-paper-plane text-cyan-400"></i>
       </button>
     </Transition>
   </form>
