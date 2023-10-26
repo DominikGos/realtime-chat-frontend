@@ -5,6 +5,7 @@ import type Message from '@/interfaces/Message';
 import { store } from '@/store';
 import MessageService from '@/services/MessageService';
 import type Chat from '@/interfaces/Chat';
+import LoadingSpinner from '../LoadingSpinner.vue';
 
 const messageService: MessageService = new MessageService;
 const chat: Chat = store.state.components.chat;
@@ -28,6 +29,8 @@ async function sendMessage() {
     message.value.files_links = [];
     message.value.created_at = undefined;
   }
+
+  changeSendButtonVisibility();
 }
 
 function changeSendButtonVisibility(): void {
@@ -93,7 +96,7 @@ const textInputClasses = computed(() => {
     </div>
     <Transition name="fade">
       <button v-if="showSendButton">
-        <p v-if="messageProccesing">Loading ...</p>
+        <LoadingSpinner v-if="messageProccesing"/>
         <i v-else class="fa-solid fa-paper-plane text-cyan-400"></i>
       </button>
     </Transition>

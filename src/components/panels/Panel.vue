@@ -4,6 +4,7 @@ import CustomInput from '../form/CustomInput.vue';
 import ChatsPanel from './ChatsPanel.vue';
 import UsersPanel from './UsersPanel.vue';
 import { store } from '@/store';
+import LoadingSpinner from '../LoadingSpinner.vue';
 </script>
 
 <template>
@@ -24,7 +25,7 @@ import { store } from '@/store';
         <ChatsPanel v-if="store.state.components.panel.name === 'Chats'" />
         <UsersPanel ref="usersPanel" v-else-if="store.state.components.panel.name === 'Users'" />
         <template #fallback>
-          loading ...
+          <LoadingSpinner class="flex justify-center"/>
         </template>
       </Suspense>
     </Transition>
