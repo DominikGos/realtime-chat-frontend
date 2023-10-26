@@ -51,8 +51,8 @@ await loadChats(offset);
       </template>
       <template v-slot:middle>
         <p>{{ getFriend(chat.users)?.first_name }} {{ getFriend(chat.users)?.last_name }}</p>
-        <p v-if="chat.last_message?.text" class="text-gray-400 truncate w-2/3 lg:w-2/4 xl:w-4/6"> {{ chat.last_message.text }} </p>
-        <p v-else-if="chat.last_message?.files_links" class="text-gray-400 truncate w-2/3 lg:w-2/4 xl:w-4/6"> sent files {{ `(${chat.last_message.files_links.length})`}} </p>
+        <p v-if="chat.last_message?.text" class="text-gray-400 truncate w-[calc(100%-60px)]"> {{ chat.last_message.text }} </p>
+        <p v-else-if="chat.last_message?.files_links" class="text-gray-400 truncate w-[calc(100%-60px)]"> sent files {{ `(${chat.last_message.files_links.length})`}} </p>
       </template>
       <template v-slot:end>
         <p class="text-xs">{{ chat.last_message?.created_at }}</p>
