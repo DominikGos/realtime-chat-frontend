@@ -5,14 +5,15 @@ export default class FormService {
     public data?: any;
     public errors?: any;
 
-    public async send(method: string, endpoint: string, data?: object): Promise<void> {
+    public async send(method: string, endpoint: string, data?: object, headers?: any): Promise<void> {
         this.processing = true;
         
         try {
             const response: AxiosResponse = await axios({
                 method: method,
                 url: endpoint,
-                data: data
+                data: data,
+                headers: headers,
             });
             this.clearErrors();
             this.data = response?.data;
