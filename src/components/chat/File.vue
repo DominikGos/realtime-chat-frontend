@@ -1,12 +1,13 @@
 <script setup lang="ts">
-const props = defineProps({
-  file: Object,
-});
+
+const props = defineProps<{
+  fileLink: string,
+}>();
 
 </script>
 
 <template>
   <div class="overflow-hidden flex items-center justify-center">
-    <img :src="file.image" alt="image" class="rounded-md">
+    <img :src="fileLink" class="rounded-md">
   </div>
 </template>

@@ -9,7 +9,7 @@ const props = defineProps<{
 
 
 const classes = computed(() => {
-  let classes = 'p-3 rounded-md '
+  let classes: string = 'p-3 rounded-md '
 
   if(props.userIsAuthor) {
     classes += ' bg-cyan-400 text-white';

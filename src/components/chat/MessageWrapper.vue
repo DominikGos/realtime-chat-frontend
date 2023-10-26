@@ -10,6 +10,9 @@ const props = defineProps<{
   message: MessageInterface,
 }>();
 
+console.log(props.message);
+
+
 const authUser: User = store.state.auth.user;
 const userIsAuthor: Boolean = authUser.id === props.message.user.id;
 </script>
@@ -28,7 +31,7 @@ const userIsAuthor: Boolean = authUser.id === props.message.user.id;
         </div>
         <div class="flex flex-col gap-2">
           <Message v-if="message.text" :message="message" :userIsAuthor="userIsAuthor"/>
-          <FileWrapper v-if="message.files.length > 0" :message="message" :userIsAuthor="userIsAuthor"/>
+          <FileWrapper v-if="message.files_links.length > 0" :filesLinks="message.files_links"/>
         </div>
       </div>
       <div :class="[userIsAuthor ? 'justify-start' : 'justify-end ', 'h-8 flex p-2']">

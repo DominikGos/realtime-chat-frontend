@@ -5,6 +5,6 @@ export default interface Message {
     text?: string,
     created_at?: string,
     updated_at?: string,
-    files: string[],
+    files_links: string[],
     user: User,
 }
