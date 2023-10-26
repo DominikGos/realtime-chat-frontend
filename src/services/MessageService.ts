@@ -18,4 +18,12 @@ export default class Message extends FormService {
             {'Content-Type': 'multipart/form-data'}
         );
     }
+
+    public async removeFile(fileLink: string): Promise<void> {
+        await this.send(
+            'delete',
+            '/chats/messages/files',
+            {file_link: fileLink}
+        );
+    }
 }

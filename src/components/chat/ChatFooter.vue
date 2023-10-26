@@ -41,15 +41,21 @@ async function addFile(e: any): Promise<void> {
   const input = e.target as HTMLInputElement;
   
   await messageService.createFile(input.files!);
+
+  if( ! messageService.errors) {
+    message.value.files = [...message.value.files, ...messageService.data.files_links];
+  }
   
-  message.value.files = [...message.value.files, ...messageService.data.files_links];
   input.value = '';
 }
 
-function removeFile(/* filePath: string */): void {
-  //const filePath = removeFile() add remove file function
+async function removeFile(fileLink: string): Promise<void> {
+  await messageService.removeFile(fileLink);
 
-  message.value.files.shift()
+  if( ! messageService.errors) {
+    const index: number = message.value.files.indexOf(fileLink);    
+    message.value.files.splice(index, 1)
+  }
 }
 
 const textInputClasses = computed(() => {
@@ -77,7 +83,7 @@ const textInputClasses = computed(() => {
       <input @input="changeSendButtonVisibility" v-model="message.text" :class="textInputClasses" type="text" placeholder="Type your message ..." />
       <div v-if="message.files.length > 0"
         class="flex gap-2 peer-focus:bg-white peer-focus:border-t peer-focus:border-r peer-focus:border-l peer-focus:border-b-transparent border border-transparent  peer-focus:border-gray-300 transition duration-300 ease-in overflow-x-auto bg-gray-100 p-3 rounded-tl-2xl rounded-tr-2xl scrollbar-thin scrollbar-thumb-gray-300">
-        <FormFile v-for="file in message.files" @removeFile="removeFile" :file="file"/>
+        <FormFile v-for="fileLink in message.files" @removeFile="removeFile" :fileLink="fileLink"/>
       </div>
     </div>
     <Transition name="fade">
