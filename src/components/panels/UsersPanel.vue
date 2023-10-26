@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import PanelItem from './PanelItem.vue';
 import Avatar from '../Avatar.vue';
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 import { store } from '@/store';
 import type User from '@/interfaces/User';
 import UserService from '@/services/UserService';
 import ChatService from '@/services/ChatService';
 
-const userService = new UserService;
-const chatService = new ChatService;
+const userService: UserService = new UserService;
+const chatService: ChatService = new ChatService;
 const users = ref<User[]>([]);
 const loading = ref(false);
-let offset = 0;
-const limit = 15;
+let offset: number = 0;
+const limit: number = 15;
 
 await loadUsers(offset);
 
@@ -45,11 +45,23 @@ async function createChat(friendId: number): Promise<void> {
 
   store.commit('setChat', chatService.data.chat);
 }
+
+function notAuthUser(user: User) {
+  return user.id != store.state.auth.user.id;
+}
+
+const userList = computed<User[]>(() => {
+  let userList: User[] = users.value.filter((user) => {
+    return user.id != store.state.auth.user.id;
+  })
+
+  return userList;
+})
 </script>
 
 <template>
   <div @scroll="loadAfterScroll" class="flex flex-col gap-3 pb-5 overflow-y-scroll h-[calc(100%-94px)] scrollbar-thin scrollbar-thumb-gray-300 overflow-hidden">
-    <PanelItem v-for="user in users" :key="user.id" @click="createChat(user.id!)">
+    <PanelItem v-for="user in userList" :key="user.id" @click="createChat(user.id!)">
       <template v-slot:start>
         <Avatar :size="'medium'" :avatar="user.avatar_link" />
       </template>

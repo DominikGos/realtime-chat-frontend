@@ -4,14 +4,13 @@ import Modal from './Modal.vue';
 import CustomButton from './buttons/CustomButton.vue';
 import { ref } from 'vue';
 import AuthService from '@/services/AuthService';
-import auth from '@/store/modules/auth';
-import { useRouter } from 'vue-router';
+import { useRouter, type Router } from 'vue-router';
 import { store } from '@/store';
 
-const authService = new AuthService;
+const authService: AuthService = new AuthService;
 const logoutConfirmationIsOpen = ref(false);
 const logoutSpinner = ref(false);
-const router = useRouter();
+const router: Router = useRouter();
 
 function showLogoutConfirmation(): void {
   logoutConfirmationIsOpen.value = true;
@@ -34,7 +33,7 @@ async function logout(): Promise<void> {
 </script>
 
 <template>
-  <nav class="flex w-full p-3 bg-white border-t-2 relative border-gray-100 lg:flex-col lg:justify-between lg:h-full lg:w-16 lg:border-t-0 lg:border-r-2">
+  <nav class="flex w-full p-3 bg-white border-t-2 relative border-gray-100 lg:flex-col lg:justify-between lg:h-full lg:w-16 lg:min-w-[4rem] lg:border-t-0 lg:border-r-2">
     <Modal :active="logoutConfirmationIsOpen" @closeModal="closeLogoutConfirmation">
       <form @submit.prevent="logout">
         <p class="mt-3">Do you want to log out?</p>
