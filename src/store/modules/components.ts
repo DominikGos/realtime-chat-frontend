@@ -1,4 +1,5 @@
 import type Chat from "@/interfaces/User";
+import type User from "@/interfaces/User";
 
 const components = {
     state: {
@@ -7,6 +8,8 @@ const components = {
         },
 
         chat: null,
+
+        profile: null,
     },
 
     mutations: {
@@ -14,8 +17,12 @@ const components = {
             state.panel.name = name;
         },
 
-        setChat(state: any, chat: Chat): void { 
+        setChat(state: any, chat?: Chat): void { 
             state.chat = chat;
+        },
+
+        setProfile(state: any, profile?: User) {
+            state.profile = profile;
         }
     }
 }

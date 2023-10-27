@@ -6,6 +6,7 @@ import { ref } from 'vue';
 import AuthService from '@/services/AuthService';
 import { useRouter, type Router } from 'vue-router';
 import { store } from '@/store';
+import Avatar from './Avatar.vue';
 
 const authService: AuthService = new AuthService;
 const logoutConfirmationIsOpen = ref(false);
@@ -30,6 +31,10 @@ async function logout(): Promise<void> {
   authService.removeUserFromTheBrowser();  
   router.push({name: 'login'});
 }
+
+function showProfile(): void {
+  store.commit('setProfile', store.state.auth.user)
+}
 </script>
 
 <template>
@@ -47,7 +52,7 @@ async function logout(): Promise<void> {
     <div class="hidden lg:flex lg:justify-center">
       <i class="fa-brands fa-vuejs text-2xl text-cyan-400"></i>
     </div>
-    <ul class="flex gap-5 justify-evenly w-full lg:flex-col lg:h-3/5 lg:items-center">
+    <ul class="flex justify-evenly items-center w-full lg:flex-col lg:gap-24 lg:justify-end lg:h-3/5">
       <li>
         <NavButton :active="store.state.components.panel.name === 'Chats'" @click="store.commit('setPanel', 'Chats')">
           <i class="fa-solid fa-message"></i>
@@ -62,6 +67,11 @@ async function logout(): Promise<void> {
         <NavButton @click="showLogoutConfirmation">
           <i class="fa-solid fa-right-from-bracket"></i>
         </NavButton>
+      </li>
+      <li>
+        <button @click="showProfile">
+          <Avatar :size="'small'" :avatar="store.state.auth.user?.avatar_link"/>
+        </button>
       </li>
     </ul>
   </nav>
