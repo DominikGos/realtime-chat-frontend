@@ -19,6 +19,9 @@ let messagesOffset = 0;
 watch(
   () => store.state.components.chat,
   async (chatResource) => {
+    if( ! chatResource) 
+      return;
+
     chat.value = chatResource
     
     friend.value = setFriend(chat.value!.users);
