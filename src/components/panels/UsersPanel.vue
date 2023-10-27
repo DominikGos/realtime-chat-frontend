@@ -14,8 +14,6 @@ const loading = ref(false);
 let offset: number = 0;
 const limit: number = 15;
 
-await loadUsers(offset);
-
 async function loadUsers(start: number): Promise<void> {
   loading.value = true;
 
@@ -46,10 +44,6 @@ async function createChat(friendId: number): Promise<void> {
   store.commit('setChat', chatService.data.chat);
 }
 
-function notAuthUser(user: User) {
-  return user.id != store.state.auth.user.id;
-}
-
 const userList = computed<User[]>(() => {
   let userList: User[] = users.value.filter((user) => {
     return user.id != store.state.auth.user.id;
@@ -57,6 +51,8 @@ const userList = computed<User[]>(() => {
 
   return userList;
 })
+
+await loadUsers(offset);
 </script>
 
 <template>

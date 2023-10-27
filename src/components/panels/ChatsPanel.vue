@@ -11,7 +11,6 @@ const chatService: ChatService = new ChatService;
 const chats = ref<Chat[]>([]);
 const loading = ref(false);
 let offset: number = 0;
-const limit: number = 15;
 
 async function loadChats(start: number): Promise<void> {
   loading.value = true;
@@ -19,7 +18,6 @@ async function loadChats(start: number): Promise<void> {
   await chatService.getChats(start);
 
   loading.value = false;
-  offset += limit;
   chats.value = [...chats.value, ...chatService.data.chats];
 }
 
@@ -39,13 +37,16 @@ const chatList = computed<Chat[]>(() => {
   return chatList;
 })
 
+async function setChat(chat: Chat) {
+  store.commit('setChat', chat); 
+}
+
 await loadChats(offset);
 </script>
 
 <template>
-  <div class="flex flex-col gap-3">
-    
-    <PanelItem :active="false" v-for="chat in chatList" :key="chat.id">
+  <div class="flex flex-col gap-3 pb-5 overflow-y-scroll h-[calc(100%-94px)] scrollbar-thin scrollbar-thumb-gray-300 overflow-hidden">
+    <PanelItem v-for="chat in chatList" :key="chat.id" @click="setChat(chat)" :active="chat.id == store.state.components.chat.id">
       <template v-slot:start>
         <Avatar :size="'medium'" :avatar="getFriend(chat.users)?.avatar_link"/>
       </template>
@@ -58,7 +59,5 @@ await loadChats(offset);
         <p class="text-xs">{{ chat.last_message?.created_at }}</p>
       </template>
     </PanelItem>
- 
-   
   </div>
 </template>
