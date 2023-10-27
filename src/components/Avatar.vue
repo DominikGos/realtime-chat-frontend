@@ -3,7 +3,7 @@ import { computed } from 'vue';
 
 const props = defineProps({
   avatar: String,
-  active: Boolean,
+  active: String,
   size: {
     type: String,
     default: 'medium',
@@ -13,7 +13,7 @@ const props = defineProps({
   }
 });
 
-const wrapperClasses = computed(() => {
+const wrapperClasses = computed<string>(() => {
   let classes: string = 'bg-gray-300 rounded-full flex items-center justify-center overflow-hidden relative ';
 
   switch (props.size) {
@@ -31,7 +31,7 @@ const wrapperClasses = computed(() => {
   return classes;
 })
 
-const iconClasses = computed(() => {
+const iconClasses = computed<string>(() => {
   let classes: string = 'fa-solid fa-user absolute -bottom-1 text-white ';
 
   switch (props.size) {
@@ -48,11 +48,32 @@ const iconClasses = computed(() => {
 
   return classes;
 })
+
+const activeStatusClasses = computed<string>(() => {
+  let classes: string = 'absolute bg-green-500 rounded-full outline outline-white ';
+
+  switch (props.size) {
+    case 'small':
+      classes += 'w-2 h-2 right-0 bottom-1 outline-2'
+      break;
+    case 'medium':
+      classes += 'w-3 h-3 right-0 bottom-1 outline-2'
+      break;
+    case 'large':
+      classes += 'w-4 h-4 right-0 bottom-1 outline-3'
+      break;
+};
+
+return classes;
+});
 </script>
 
 <template>
-  <div :class="wrapperClasses">
-    <img v-if="avatar" :src="avatar" alt="avatar">
-    <i v-else :class="iconClasses"></i>
+  <div class="relative">
+    <div :class="wrapperClasses">
+      <img v-if="avatar" :src="avatar" alt="avatar">
+      <i v-else :class="iconClasses"></i>
+    </div>
+    <div v-if="props.active" :class="activeStatusClasses"></div>
   </div>
 </template>

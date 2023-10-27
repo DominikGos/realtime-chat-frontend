@@ -63,7 +63,7 @@ await loadChats(offset);
   <div class="flex flex-col gap-3 pb-5 overflow-y-scroll h-[calc(100%-94px)] scrollbar-thin scrollbar-thumb-gray-300 overflow-hidden">
     <PanelItem v-for="chat in chatList" :key="chat.id" @click="setChat(chat)" :active="chat?.id == store.state.components.chat?.id">
       <template v-slot:start>
-        <Avatar :size="'medium'" :avatar="getFriend(chat.users)?.avatar_link"/>
+        <Avatar :size="'medium'" :active="getFriend(chat.users)?.signed_in" :avatar="getFriend(chat.users)?.avatar_link"/>
       </template>
       <template v-slot:middle>
         <p>{{ getFriend(chat.users)?.first_name }} {{ getFriend(chat.users)?.last_name }}</p>

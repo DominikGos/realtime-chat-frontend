@@ -59,7 +59,7 @@ await loadUsers(offset);
   <div @scroll="loadAfterScroll" class="flex flex-col gap-3 pb-5 overflow-y-scroll h-[calc(100%-94px)] scrollbar-thin scrollbar-thumb-gray-300 overflow-hidden">
     <PanelItem v-for="user in userList" :key="user.id" @click="createChat(user.id!)">
       <template v-slot:start>
-        <Avatar :size="'medium'" :avatar="user.avatar_link" />
+        <Avatar :size="'medium'" :active="user.signed_in" :avatar="user.avatar_link" />
       </template>
       <template v-slot:middle>
         <p>{{ user.first_name }} {{ user.last_name }}</p>

@@ -45,7 +45,7 @@ async function loadMessages(start: number) {
   <div class="w-screen h-screen fixed right-0 top-0 bg-white  flex flex-col lg:static lg:border-l-2 lg:border-gray-100">
     <ChatHeader>
       <template v-slot:members>
-        <Avatar :size="'small'" :avatar="friend?.avatar_link" />
+        <Avatar :size="'small'" :active="friend?.signed_in" :avatar="friend?.avatar_link" />
         <p class=" font-medium">{{ friend?.first_name }} {{ friend?.last_name }}</p>
       </template>
     </ChatHeader>
