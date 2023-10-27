@@ -24,7 +24,7 @@ async function loadChats(start: number): Promise<void> {
 
 function getFriend(chatMembers: User[]): User {
   const friend: User = chatMembers.filter((user) => {
-    return user.id != store.state.auth.user.id;
+    return user.id != store.state.auth.user?.id;
   })[0];
 
   return friend;

@@ -46,7 +46,7 @@ async function createChat(friendId: number): Promise<void> {
 
 const userList = computed<User[]>(() => {
   let userList: User[] = users.value.filter((user) => {
-    return user.id != store.state.auth.user.id;
+    return user.id != store.state.auth.user?.id;
   })
 
   return userList;
