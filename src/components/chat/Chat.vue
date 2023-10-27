@@ -51,7 +51,9 @@ async function loadMessages(start: number) {
     </ChatHeader>
     <main
       class="h-full w-full flex flex-col-reverse gap-3 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300">
-      <MessageWrapper v-for="message in messages" :key="message.id" :message="message"/>
+      <TransitionGroup name="list">
+        <MessageWrapper v-for="message in messages" :key="message.id" :message="message"/>
+      </TransitionGroup>
     </main>
     <ChatFooter />
   </div>

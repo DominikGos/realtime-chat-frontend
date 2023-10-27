@@ -40,39 +40,42 @@ const chatList = computed<Chat[]>(() => {
 
 function lastMessage(message: Message): string {
   let lastMessage: string = '';
-  let authorName: string = message.user.id == store.state.auth.user.id 
+  let authorName: string = message.user.id == store.state.auth.user.id
     ? 'you'
     : `${message.user.first_name} ${message.user.last_name}`;
 
-  if(message.text) 
+  if (message.text)
     lastMessage = `${authorName}: ${message.text}`
-  else if(message.files_links.length > 0) 
+  else if (message.files_links.length > 0)
     lastMessage = `${authorName}: sent files(${message.files_links.length})`
-  
+
   return lastMessage;
 }
 
 async function setChat(chat: Chat) {
-  store.commit('setChat', chat); 
+  store.commit('setChat', chat);
 }
 
 await loadChats(offset);
 </script>
 
 <template>
-  <div class="flex flex-col gap-3 pb-5 overflow-y-scroll h-[calc(100%-94px)] scrollbar-thin scrollbar-thumb-gray-300 overflow-hidden">
-    <PanelItem v-for="chat in chatList" :key="chat.id" @click="setChat(chat)" :active="chat?.id == store.state.components.chat?.id">
+  <div
+    class="flex flex-col gap-3 pb-5 overflow-y-scroll h-[calc(100%-94px)] scrollbar-thin scrollbar-thumb-gray-300 overflow-hidden">
+    <PanelItem v-for="chat in chatList" :key="chat.id" @click="setChat(chat)"
+      :active="chat?.id == store.state.components.chat?.id">
       <template v-slot:start>
-        <Avatar :size="'medium'" :active="getFriend(chat.users)?.signed_in" :avatar="getFriend(chat.users)?.avatar_link"/>
+        <Avatar :size="'medium'" :active="getFriend(chat.users)?.signed_in"
+          :avatar="getFriend(chat.users)?.avatar_link" />
       </template>
       <template v-slot:middle>
         <p>{{ getFriend(chat.users)?.first_name }} {{ getFriend(chat.users)?.last_name }}</p>
-        <p class="text-gray-400 truncate w-[calc(100%-60px)]"> {{ lastMessage(chat.last_message! ) }} </p>
+        <p class="text-gray-400 truncate w-[calc(100%-60px)]"> {{ lastMessage(chat.last_message!) }} </p>
       </template>
       <template v-slot:end>
         <p class="text-xs">{{ chat.last_message?.created_at }}</p>
       </template>
     </PanelItem>
-    <p v-if="(! loading) && chatList.length === 0" class="text-sm text-center">You have no any conversations.</p>
+    <p v-if="(!loading) && chatList.length === 0" class="text-sm text-center">You have no any conversations.</p>
   </div>
 </template>
