@@ -7,7 +7,7 @@ export default class FormService {
 
     public async send(method: string, endpoint: string, data?: object, headers?: any): Promise<void> {
         this.processing = true;
-        
+
         try {
             const response: AxiosResponse = await axios({
                 method: method,
@@ -18,13 +18,14 @@ export default class FormService {
             this.clearErrors();
             this.data = response?.data;
             this.processing = false;
-        } catch (error: any) {
+        } catch (e: any) {
             this.processing = false;
             
-            if (error.response?.data.errors) 
-                this.setErrors(error.response.data.errors)
-            else if (error.response?.status)
-                throw error.response.status
+            if (e.response?.data.errors) {
+                this.setErrors(e.response.data.errors)
+                throw e.response.data
+            }else if (e.response?.status)
+                throw e.response.status
             else
                 throw 'Something went wrong.';
         }

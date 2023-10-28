@@ -2,13 +2,14 @@
 import ChatHeader from './ChatHeader.vue';
 import ChatFooter from './ChatFooter.vue';
 import MessageWrapper from './MessageWrapper.vue';
-import { ref, watch } from 'vue';
+import { onErrorCaptured, ref, watch } from 'vue';
 import { store } from '@/store';
 import type Chat from '@/interfaces/Chat';
 import type User from '@/interfaces/User';
 import type Message from '@/interfaces/Message';
 import Avatar from '../Avatar.vue';
 import MessageService from '@/services/MessageService'
+import ChatError from './ChatError.vue';
 
 const chat = ref<Chat>();
 const friend = ref<User>();
@@ -31,6 +32,12 @@ watch(
   }, { immediate: true }
 )
 
+onErrorCaptured((error) => {
+  store.commit('setChatError', error) 
+  
+  return false;
+})
+
 function setFriend(users: User[]): User {
   const friends: User[] = users.filter((user) => {
     return user.id != store.state.auth.user.id;
@@ -46,6 +53,7 @@ async function loadMessages(start: number) {
 
 <template>
   <div class="w-screen h-screen fixed right-0 top-0 bg-white  flex flex-col lg:static lg:border-l-2 lg:border-gray-100">
+    <ChatError/>
     <ChatHeader>
       <template v-slot:members>
         <Avatar :size="'small'" :active="friend?.signed_in" :avatar="friend?.avatar_link" />

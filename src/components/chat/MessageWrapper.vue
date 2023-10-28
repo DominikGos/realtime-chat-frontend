@@ -10,9 +10,6 @@ const props = defineProps<{
   message: MessageInterface,
 }>();
 
-console.log(props.message);
-
-
 const authUser: User = store.state.auth.user;
 const userIsAuthor: Boolean = authUser.id === props.message.user.id;
 </script>

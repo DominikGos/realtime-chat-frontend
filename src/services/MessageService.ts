@@ -1,29 +1,47 @@
 import FormService from "./FormService";
 import type MessageInterface from '@/interfaces/Message';
+import { store } from "@/store";
+import { AxiosError } from "axios";
 
 export default class Message extends FormService {
     public async getMessages(chatId: number, start: number): Promise<void> {
-        await this.send('get', `/chats/${chatId}/messages?start=${start}`)
+        try {
+            await this.send('get', `/chats/${chatId}/messages?start=${start}`)
+        } catch (error: any) {
+            store.commit('setChatError', error)
+        }
     }
 
     public async createMessage(chatId: number, message: MessageInterface): Promise<void> {
-        await this.send('post', `/chats/${chatId}/messages`, message);
+        try {
+            await this.send('post', `/chats/${chatId}/messages`, message);
+        } catch (error: any) {
+            store.commit('setChatError', error)
+        }
     }
 
     public async createFile(files: FileList): Promise<void> {
-        await this.send(
-            'post', 
-            '/chats/messages/files', 
-            {files: files}, 
-            {'Content-Type': 'multipart/form-data'}
-        );
+        try {
+            await this.send(
+                'post',
+                '/chats/messages/files',
+                { files: files },
+                { 'Content-Type': 'multipart/form-data' }
+            )
+        } catch (error: any) {
+            store.commit('setChatError', error)
+        }
     }
 
     public async removeFile(fileLink: string): Promise<void> {
-        await this.send(
-            'delete',
-            '/chats/messages/files',
-            {file_link: fileLink}
-        );
+        try {
+            await this.send(
+                'delete',
+                '/chats/messages/files',
+                { file_link: fileLink }
+            );
+        } catch (error: any) {
+            store.commit('setChatError', error)
+        }
     }
 }

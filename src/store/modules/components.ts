@@ -1,5 +1,6 @@
 import type Chat from "@/interfaces/User";
 import type User from "@/interfaces/User";
+import type { AxiosError } from "axios";
 
 const components = {
     state: {
@@ -23,7 +24,7 @@ const components = {
 
         setProfile(state: any, profile?: User) {
             state.profile = profile;
-        }
+        },
     }
 }
 
