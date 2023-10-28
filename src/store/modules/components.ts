@@ -1,6 +1,6 @@
 import type Chat from "@/interfaces/User";
 import type User from "@/interfaces/User";
-import type { AxiosError } from "axios";
+import type ModalFile from "@/interfaces/ModalFile";
 
 const components = {
     state: {
@@ -11,6 +11,8 @@ const components = {
         chat: null,
 
         profile: null,
+
+        file: null,
     },
 
     mutations: {
@@ -25,6 +27,10 @@ const components = {
         setProfile(state: any, profile?: User) {
             state.profile = profile;
         },
+
+        setFile(state: any, modalFile?: ModalFile): void {
+            state.file = modalFile;
+        }
     }
 }
 

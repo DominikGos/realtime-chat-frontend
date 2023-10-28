@@ -10,6 +10,7 @@ import type Message from '@/interfaces/Message';
 import Avatar from '../Avatar.vue';
 import MessageService from '@/services/MessageService'
 import ChatError from './ChatError.vue';
+import FileModal from '../FileModal.vue';
 
 const chat = ref<Chat>();
 const friend = ref<User>();
@@ -54,6 +55,7 @@ async function loadMessages(start: number) {
 <template>
   <div class="w-screen h-screen fixed right-0 top-0 bg-white  flex flex-col lg:static lg:border-l-2 lg:border-gray-100">
     <ChatError/>
+    <FileModal/>
     <ChatHeader>
       <template v-slot:members>
         <Avatar :size="'small'" :active="friend?.signed_in" :avatar="friend?.avatar_link" />
