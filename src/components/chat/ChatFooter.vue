@@ -97,7 +97,7 @@ const textInputClasses = computed(() => {
     <Transition name="fade">
       <button v-if="showSendButton">
         <LoadingSpinner v-if="messageProccesing"/>
-        <i v-else class="fa-solid fa-paper-plane text-cyan-400"></i>
+        <i v-else class="fa-solid fa-paper-plane text-cyan-400 w-6 h-6 min-w-[1.5rem] min-h-[1.5rem]"></i>
       </button>
     </Transition>
   </form>
