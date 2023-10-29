@@ -17,11 +17,14 @@ const limit: number = 15;
 async function loadUsers(start: number): Promise<void> {
   loading.value = true;
 
-  await userService.getUsers(start);
+  await userService.getUsers(start, limit);
 
   loading.value = false;
-  offset += limit;
-  users.value = [...users.value, ...userService.data.users];
+
+  if(userService.data.users.length > 0) {
+    users.value = [...users.value, ...userService.data.users];
+    offset += userService.data.users.length;
+  }
 }
 
 function loadAfterScroll(e: any): void {  
