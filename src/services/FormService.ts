@@ -20,12 +20,12 @@ export default class FormService {
             this.processing = false;
         } catch (e: any) {
             this.processing = false;
-            
+
             if (e.response?.data.errors) {
                 this.setErrors(e.response.data.errors)
                 throw e.response.data
-            }else if (e.response?.status)
-                throw e.response.status
+            } else if (e.response?.data)
+                throw e.response.data
             else
                 throw 'Something went wrong.';
         }
