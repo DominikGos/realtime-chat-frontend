@@ -15,8 +15,10 @@ import FileModal from '../FileModal.vue';
 const chat = ref<Chat>();
 const friend = ref<User>();
 const messageService = new MessageService;
-const messages = ref<Message[]>();
+const messages = ref<Message[]>([]);
+const messagesLoading = ref(false);
 let messagesOffset = 0;
+const messagesLimit =  15;
 
 watch(
   () => store.state.components.chat,
@@ -25,10 +27,9 @@ watch(
       return;
 
     chat.value = chatResource
-    
     friend.value = setFriend(chat.value!.users);
+    
     await loadMessages(messagesOffset);
-    messages.value = messageService.data.messages;
 
   }, { immediate: true }
 )
@@ -48,9 +49,31 @@ function setFriend(users: User[]): User {
 }
 
 async function loadMessages(start: number) {
-  await messageService.getMessages(chat.value!.id, start);
+  messagesLoading.value = true;
+
+  await messageService.getMessages(chat.value!.id, start, messagesLimit);
+  
+  messagesLoading.value = false;
+  
+  if(messageService.data.messages.length > 0) {
+    messages.value = [...messages.value, ...messageService.data.messages];
+    messagesOffset += messageService.data.messages.length;
+  }
 }
 
+function loadAfterScroll(e: any): void {  
+  setTimeout(async () => {
+    if(messagesLoading.value) {
+      return;
+    }  
+
+    const chatBody = e.target as HTMLDivElement;
+    
+    if(Math.abs(chatBody.scrollTop) + chatBody.clientHeight >= chatBody.scrollHeight - 10) {      
+      await loadMessages(messagesOffset);
+    }
+  }, 1000);
+}
 
 function showProfile(user?: User): void {
   store.commit('setProfile', user);
@@ -68,6 +91,7 @@ function showProfile(user?: User): void {
       </template>
     </ChatHeader>
     <main
+      @scroll="loadAfterScroll"
       class="h-full w-full flex flex-col-reverse gap-3 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300">
       <TransitionGroup name="list">
         <MessageWrapper v-for="message in messages" :key="message.id" :message="message"/>

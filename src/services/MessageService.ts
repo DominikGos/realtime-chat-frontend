@@ -4,9 +4,13 @@ import { store } from "@/store";
 import { AxiosError } from "axios";
 
 export default class Message extends FormService {
-    public async getMessages(chatId: number, start: number): Promise<void> {
+    public async getMessages(chatId: number, start: number, limit?: number): Promise<void> {
+        const endpoint: string = limit 
+            ?  `/chats/${chatId}/messages?start=${start}&limit=${limit}`
+            :  `/chats/${chatId}/messages?start=${start}`;
+
         try {
-            await this.send('get', `/chats/${chatId}/messages?start=${start}`)
+            await this.send('get', endpoint)
         } catch (error: any) {
             store.commit('setChatError', error)
         }
