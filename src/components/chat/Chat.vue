@@ -50,6 +50,11 @@ function setFriend(users: User[]): User {
 async function loadMessages(start: number) {
   await messageService.getMessages(chat.value!.id, start);
 }
+
+
+function showProfile(user?: User): void {
+  store.commit('setProfile', user);
+}
 </script>
 
 <template>
@@ -58,8 +63,8 @@ async function loadMessages(start: number) {
     <FileModal/>
     <ChatHeader>
       <template v-slot:members>
-        <Avatar :size="'small'" :active="friend?.signed_in" :avatar="friend?.avatar_link" />
-        <p class=" font-medium">{{ friend?.first_name }} {{ friend?.last_name }}</p>
+        <Avatar :size="'small'" class="cursor-pointer" :active="friend?.signed_in" :avatar="friend?.avatar_link" @click="showProfile(friend)"/>
+        <p class="cursor-pointer font-medium" @click="showProfile(friend)">{{ friend?.first_name }} {{ friend?.last_name }}</p>
       </template>
     </ChatHeader>
     <main
