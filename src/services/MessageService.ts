@@ -23,6 +23,14 @@ export default class Message extends FormService {
             store.commit('setChatError', error)
         }
     }
+   
+    public async deleteMessage(chatId: number, messageId: number): Promise<void> {
+        try {
+            await this.send('delete', `/chats/${chatId}/messages/${messageId}`);
+        } catch (error: any) {
+            store.commit('setChatError', error)
+        }
+    }
 
     public async createFile(files: FileList): Promise<void> {
         try {

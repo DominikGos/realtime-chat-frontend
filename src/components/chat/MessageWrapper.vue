@@ -8,22 +8,34 @@ import { store } from '@/store';
 import { ref } from 'vue';
 import MessageSettings from './MessageSettings.vue';
 import CustomButton from '../buttons/CustomButton.vue';
+import MessageService from '@/services/MessageService'
 
 const props = defineProps<{
   message: MessageInterface,
 }>();
 
+const messageService: MessageService = new MessageService;
 const authUser: User = store.state.auth.user;
 const userIsAuthor: Boolean = authUser.id === props.message.user.id;
 const showSettings = ref(false);
+const loadingDeletion = ref(false);
+
+async function deleteMessage(message: MessageInterface): Promise<void> {
+  loadingDeletion.value = true;
+  
+  await messageService.deleteMessage(store.state.components.chat.id, message.id!);
+  
+  loadingDeletion.value = false;
+  showSettings.value = false;
+}
 </script>
 
 <template>
   <div :class="[userIsAuthor ? 'justify-end' : 'justify-start', 'flex']">
     <Transition name="fade">
       <MessageSettings v-if="showSettings">
-        <CustomButton :color="'red'">Delete</CustomButton>
-        <CustomButton :color="'gray'" @click="showSettings = false">Close</CustomButton>
+        <CustomButton :color="'red'" @click="deleteMessage(message)" :loading="loadingDeletion">Delete</CustomButton>
+        <button class="text-center text-sm" @click="showSettings = false">Close</button>
       </MessageSettings>
     </Transition>
     <div class="p-3 flex flex-col h-min  max-w-[256px] ">
