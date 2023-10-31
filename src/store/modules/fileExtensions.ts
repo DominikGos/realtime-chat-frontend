@@ -5,6 +5,7 @@ const fileExtensions = {
             'jpeg', 
             'jpg', 
             'png',
+            'gif'
         ],
         video: [
             'mp4',
