@@ -42,6 +42,7 @@ watch(
 
     if(chat.value?.id === newMessageResource.chat_id) {
       messages.value.unshift(newMessageResource);
+      messagesOffset ++;
     }    
   }
 )
