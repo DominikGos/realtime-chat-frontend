@@ -10,6 +10,8 @@ const auth = {
 
     newMessage: null,
 
+    removedMessage: null,
+
     mutations: {
         setUser(state: any, user?: User): void {
             state.user = user;
@@ -21,6 +23,10 @@ const auth = {
 
         setNewMessage(state: any, message?: Message): void {
             state.newMessage = message;
+        },
+
+        setRemovedMessage(state: any, message?: Message): void {
+            state.removedMessage = message;
         }
     }
 }

@@ -28,6 +28,12 @@ watch(
 
           store.commit('setNewMessage', message)
         })
+        .listen('MessageRemoved', (e: any) => {
+          const message: Message = e.removed_message;
+          message.chat_id = chatId
+
+          store.commit('setRemovedMessage', message)
+        })
     })
   }
 )
