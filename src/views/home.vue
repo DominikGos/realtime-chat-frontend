@@ -22,8 +22,11 @@ watch(
 
     ids.forEach(chatId => {
       window.Echo.private(`chat.${chatId}`)
-        .listen('MessageSent', (e: Message) => {
-          console.log(e);
+        .listen('MessageSent', (e: any) => {
+          const message: Message = e.message;
+          message.chat_id = chatId
+
+          store.commit('setNewMessage', message)
         })
     })
   }

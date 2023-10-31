@@ -34,6 +34,18 @@ watch(
   }, { immediate: true }
 )
 
+watch(
+  () => store.state.auth.newMessage,
+  async (newMessageResource?: Message) => {
+    if( ! newMessageResource) 
+      return;
+
+    if(chat.value?.id === newMessageResource.chat_id) {
+      messages.value.unshift(newMessageResource);
+    }    
+  }
+)
+
 onErrorCaptured((error) => {
   store.commit('setChatError', error) 
   
