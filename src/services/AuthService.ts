@@ -2,14 +2,25 @@ import type User from '@/interfaces/User';
 import FormService from './FormService';
 import AxiosService from './AxiosService';
 import { store } from '@/store';
+import UserService from './UserService';
 
 export default class AuthService extends FormService {
     private axiosService?: AxiosService;
+    private userService?: UserService;
 
     public constructor() {
         super();
 
         this.axiosService = new AxiosService;
+        this.userService = new UserService;
+    }
+
+    private async initUserData(authToken: string): Promise<void> {
+        await this.getAuthUser();
+        await this.userService?.getUserChatsIds();
+        
+        store.commit('setUser', {...this.data, ... {token: authToken}}); //fix user endpoint
+        store.commit('setUserChatsIds', this.userService?.data.ids);
     }
 
     public async login(user: User): Promise<void> {
@@ -29,7 +40,7 @@ export default class AuthService extends FormService {
     }
 
     public async userHasValidToken(userFromTheBrowser: User | null): Promise<boolean> {
-        if (!userFromTheBrowser) {
+        if (!userFromTheBrowser || ! userFromTheBrowser.token) {
             store.commit('setUser', undefined);
             
             return false;
@@ -38,14 +49,14 @@ export default class AuthService extends FormService {
         await this.axiosService!.setAuthToken(userFromTheBrowser.token!);
 
         try {
-            await this.getAuthUser();
-            store.commit('setUser', {...userFromTheBrowser, ... {token: userFromTheBrowser.token}});
-            
+            this.initUserData(userFromTheBrowser.token)
+           
             return true;
         } catch (error) {
             console.error(error);
             
             store.commit('setUser', undefined);
+            store.commit('setUserChatsIds', undefined);
             this.removeUserFromTheBrowser();
 
             return false;

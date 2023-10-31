@@ -8,4 +8,8 @@ export default class UserService extends FormService{
         
         await this.send('get', endpoint);
     }
+
+    public async getUserChatsIds(): Promise<void> {
+        await this.send('get', '/users/chats-ids');
+    }
 }

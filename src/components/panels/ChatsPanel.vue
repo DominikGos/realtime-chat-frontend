@@ -40,7 +40,7 @@ const chatList = computed<Chat[]>(() => {
 
 function lastMessage(message: Message): string {
   let lastMessage: string = '';
-  let authorName: string = message.user.id == store.state.auth.user.id
+  let authorName: string = message.user.id == store.state.auth.user?.id
     ? 'you'
     : `${message.user.first_name} ${message.user.last_name}`;
 

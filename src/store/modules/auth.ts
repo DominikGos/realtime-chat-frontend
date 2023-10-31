@@ -1,19 +1,20 @@
 import type User from "@/interfaces/User";
 
-interface AuthState {
-    user: User | undefined
-}
-
-const state: AuthState = {
-    user: undefined
-}
 
 const auth = {
-    state,
+    state: {
+        user: null
+    },
+
+    chatsIds: null,
 
     mutations: {
-        setUser(state: AuthState, user?: User): void {
+        setUser(state: any, user?: User): void {
             state.user = user;
+        },
+
+        setUserChatsIds(state: any, ids?: number[]) {
+            state.chatsIds = ids;
         }
     }
 }
