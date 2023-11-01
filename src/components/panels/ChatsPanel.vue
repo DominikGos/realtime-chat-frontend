@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PanelItem from './PanelItem.vue';
 import Avatar from '../Avatar.vue';
-import { computed, onBeforeMount, ref } from 'vue';
+import { computed, onBeforeMount, ref, watch } from 'vue';
 import ChatService from '@/services/ChatService';
 import type Chat from '@/interfaces/Chat';
 import type User from '@/interfaces/User';
@@ -12,6 +12,36 @@ const chatService: ChatService = new ChatService;
 const chats = ref<Chat[]>([]);
 const loading = ref(false);
 let offset: number = 0;
+
+watch(
+  () => store.state.broadcastedData.newMessage,
+  (newMessageResource?: Message) => {
+    if (!newMessageResource)
+      return;
+
+    let chatWithNewMessageIndex: number | undefined;
+
+    chats.value.forEach((chat: Chat, index: number) => {
+      if (chat.id === newMessageResource.chat_id) {
+        chatWithNewMessageIndex = index;
+        const chatWithNewMessage: Chat = { ...chat, ...{ last_message: newMessageResource } };
+        chats.value.splice(index, 1);
+
+        chats.value.unshift(chatWithNewMessage)
+      }
+    })
+
+    if (typeof chatWithNewMessageIndex !== 'number') {
+      const chatWithNewMessage: Chat = {
+        id: newMessageResource.chat_id!,
+        users: [store.state.auth.user, newMessageResource.user],
+        last_message: newMessageResource
+      };
+
+      chats.value.unshift(chatWithNewMessage)
+    }
+  }
+)
 
 async function loadChats(start: number): Promise<void> {
   loading.value = true;

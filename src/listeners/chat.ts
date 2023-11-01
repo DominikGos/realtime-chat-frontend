@@ -15,8 +15,6 @@ export function listenChats() {
       ids.forEach(chatId => {
         window.Echo.private(`chat.${chatId}`)
           .listen('MessageSent', (e: any) => {
-            console.log(e);
-            
             const message: Message = e.message;
             message.chat_id = chatId
 
