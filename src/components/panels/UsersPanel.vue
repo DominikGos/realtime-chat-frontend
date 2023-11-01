@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PanelItem from './PanelItem.vue';
 import Avatar from '../Avatar.vue';
-import { ref, onBeforeMount, computed } from 'vue';
+import { ref, onBeforeMount, computed, watch } from 'vue';
 import { store } from '@/store';
 import type User from '@/interfaces/User';
 import UserService from '@/services/UserService';
@@ -13,6 +13,20 @@ const users = ref<User[]>([]);
 const loading = ref(false);
 let offset: number = 0;
 const limit: number = 15;
+
+watch(
+  () => store.state.broadcastedData.updatedUser,
+  (updatedUserResource?: User) => {
+    if (!updatedUserResource)
+      return;
+
+    users.value.forEach((user: User, index: number) => {
+      if(user.id === updatedUserResource.id) {
+        users.value[index] = updatedUserResource;
+      }
+    })
+  }
+)
 
 async function loadUsers(start: number): Promise<void> {
   loading.value = true;

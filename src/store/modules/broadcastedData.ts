@@ -6,6 +6,8 @@ const broadcastedData = {
 
     removedMessage: null,
 
+    updatedUser: null,
+
     mutations: {
         setNewMessage(state: any, message?: Message): void {
             state.newMessage = message;
@@ -13,6 +15,10 @@ const broadcastedData = {
 
         setRemovedMessage(state: any, message?: Message): void {
             state.removedMessage = message;
+        },
+
+        setUpdatedUser(state: any, user?: User): void {
+            state.updatedUser = user;
         }
     }
 }

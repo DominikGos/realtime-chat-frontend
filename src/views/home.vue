@@ -10,6 +10,7 @@ import AuthService from '../services/AuthService';
 import { watch } from 'vue';
 import type Message from '@/interfaces/Message';
 import { listenChats } from '@/listeners/chat';
+import { listenUsers } from '@/listeners/user';
 
 const authService = new AuthService;
 window.Pusher = Pusher;
@@ -28,6 +29,7 @@ window.Echo = new Echo({
 });
 
 listenChats();
+listenUsers();
 </script>
 
 <template>

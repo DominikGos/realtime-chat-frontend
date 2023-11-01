@@ -36,7 +36,7 @@ watch(
 
 watch(
   () => store.state.broadcastedData.newMessage,
-  async (newMessageResource?: Message) => {
+  (newMessageResource?: Message) => {
     if (!newMessageResource)
       return;
 
@@ -49,7 +49,7 @@ watch(
 
 watch(
   () => store.state.broadcastedData.removedMessage,
-  async (removedMessageResource?: Message) => {
+  (removedMessageResource?: Message) => {
     if (!removedMessageResource)
       return;
 
@@ -65,6 +65,18 @@ watch(
         messages.value.splice(messageIndex, 1)
         messagesOffset--;
       }
+    }
+  }
+)
+
+watch(
+  () => store.state.broadcastedData.updatedUser,
+  (updatedUserResource?: User) => {
+    if (!updatedUserResource)
+      return;
+
+    if (friend.value && friend.value.id === updatedUserResource.id) {
+      friend.value = updatedUserResource;
     }
   }
 )
