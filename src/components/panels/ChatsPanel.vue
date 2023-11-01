@@ -88,20 +88,22 @@ await loadChats(offset);
 <template>
   <div
     class="flex flex-col gap-3 pb-5 overflow-y-scroll h-[calc(100%-94px)] scrollbar-thin scrollbar-thumb-gray-300 overflow-hidden">
-    <PanelItem v-for="chat in chatList" :key="chat.id" @click="setChat(chat)"
-      :active="chat?.id == store.state.components.chat?.id">
-      <template v-slot:start>
-        <Avatar :size="'medium'" :active="getFriend(chat.users)?.signed_in"
-          :avatar="getFriend(chat.users)?.avatar_link" />
-      </template>
-      <template v-slot:middle>
-        <p>{{ getFriend(chat.users)?.first_name }} {{ getFriend(chat.users)?.last_name }}</p>
-        <p class="text-gray-400 truncate w-[calc(100%-60px)]"> {{ lastMessage(chat.last_message!) }} </p>
-      </template>
-      <template v-slot:end>
-        <p class="text-xs">{{ chat.last_message?.created_at }}</p>
-      </template>
-    </PanelItem>
+    <TransitionGroup name="list">
+      <PanelItem v-for="chat in chatList" :key="chat.id" @click="setChat(chat)"
+        :active="chat?.id == store.state.components.chat?.id">
+        <template v-slot:start>
+          <Avatar :size="'medium'" :active="getFriend(chat.users)?.signed_in"
+            :avatar="getFriend(chat.users)?.avatar_link" />
+        </template>
+        <template v-slot:middle>
+          <p>{{ getFriend(chat.users)?.first_name }} {{ getFriend(chat.users)?.last_name }}</p>
+          <p class="text-gray-400 truncate w-[calc(100%-60px)]"> {{ lastMessage(chat.last_message!) }} </p>
+        </template>
+        <template v-slot:end>
+          <p class="text-xs">{{ chat.last_message?.created_at }}</p>
+        </template>
+      </PanelItem>
+    </TransitionGroup>
     <p v-if="(!loading) && chatList.length === 0" class="text-sm text-center">You have no any conversations.</p>
   </div>
 </template>
