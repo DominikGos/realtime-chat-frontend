@@ -19,7 +19,7 @@ export default class AuthService extends FormService {
         await this.getAuthUser();
         await this.userService?.getUserChatsIds();
         
-        store.commit('setUser', {...this.data, ... {token: authToken}}); //fix user endpoint
+        store.commit('setUser', {...this.data.user, ... {token: authToken}}); 
         store.commit('setUserChatsIds', this.userService?.data.ids);
     }
 

@@ -35,7 +35,7 @@ watch(
 )
 
 watch(
-  () => store.state.auth.newMessage,
+  () => store.state.broadcastedData.newMessage,
   async (newMessageResource?: Message) => {
     if (!newMessageResource)
       return;
@@ -48,7 +48,7 @@ watch(
 )
 
 watch(
-  () => store.state.auth.removedMessage,
+  () => store.state.broadcastedData.removedMessage,
   async (removedMessageResource?: Message) => {
     if (!removedMessageResource)
       return;
