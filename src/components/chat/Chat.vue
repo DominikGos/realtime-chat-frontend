@@ -40,7 +40,7 @@ watch(
     if (!newMessageResource)
       return;
 
-    if (chat.value?.id === newMessageResource.chat_id) {
+    if (chat.value?.id === newMessageResource.chat!.id) {
       messages.value.unshift(newMessageResource);
       messagesOffset++;
     }
@@ -53,7 +53,7 @@ watch(
     if (!removedMessageResource)
       return;
 
-    if (chat.value?.id === removedMessageResource.chat_id) {
+    if (chat.value?.id === removedMessageResource.chat!.id) {
       let messageIndex: number | undefined;
 
       messages.value.forEach((message, index) => {

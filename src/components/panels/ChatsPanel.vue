@@ -22,22 +22,18 @@ watch(
     let chatWithNewMessageIndex: number | undefined;
 
     chats.value.forEach((chat: Chat, index: number) => {
-      if (chat.id === newMessageResource.chat_id) {
+      if (chat.id === newMessageResource.chat!.id) {
         chatWithNewMessageIndex = index;
-        const chatWithNewMessage: Chat = { ...chat, ...{ last_message: newMessageResource } };
+        const chatWithNewMessage: Chat = newMessageResource.chat!
+        chatWithNewMessage.last_message = newMessageResource
         chats.value.splice(index, 1);
-
         chats.value.unshift(chatWithNewMessage)
       }
     })
 
     if (typeof chatWithNewMessageIndex !== 'number') {
-      const chatWithNewMessage: Chat = {
-        id: newMessageResource.chat_id!,
-        users: [store.state.auth.user, newMessageResource.user],
-        last_message: newMessageResource
-      };
-
+      const chatWithNewMessage: Chat = newMessageResource.chat!
+      chatWithNewMessage.last_message = newMessageResource
       chats.value.unshift(chatWithNewMessage)
     }
   }

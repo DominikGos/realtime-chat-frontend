@@ -15,14 +15,15 @@ export function listenChats() {
       ids.forEach(chatId => {
         window.Echo.private(`chat.${chatId}`)
           .listen('MessageSent', (e: any) => {
+            
             const message: Message = e.message;
-            message.chat_id = chatId
+            message.chat!.id = chatId
 
             store.commit('setNewMessage', message)
           })
           .listen('MessageRemoved', (e: any) => {
             const message: Message = e.removed_message;
-            message.chat_id = chatId
+            message.chat!.id = chatId
 
             store.commit('setRemovedMessage', message)
           })
