@@ -9,34 +9,10 @@ import Pusher from 'pusher-js';
 import AuthService from '../services/AuthService';
 import { watch } from 'vue';
 import type Message from '@/interfaces/Message';
+import { listenChats } from '@/listeners/chat';
 
 const authService = new AuthService;
 window.Pusher = Pusher;
-
-watch(
-  () => store.state.auth.chatsIds,
-  (ids?: number[]) => {
-    if (!ids?.length) {
-      return;
-    }
-
-    ids.forEach(chatId => {
-      window.Echo.private(`chat.${chatId}`)
-        .listen('MessageSent', (e: any) => {
-          const message: Message = e.message;
-          message.chat_id = chatId
-
-          store.commit('setNewMessage', message)
-        })
-        .listen('MessageRemoved', (e: any) => {
-          const message: Message = e.removed_message;
-          message.chat_id = chatId
-
-          store.commit('setRemovedMessage', message)
-        })
-    })
-  }
-)
 
 window.Echo = new Echo({
   authEndpoint: 'http://realtime-chat/broadcasting/auth',
@@ -50,6 +26,8 @@ window.Echo = new Echo({
     },
   },
 });
+
+listenChats();
 </script>
 
 <template>
