@@ -24,9 +24,12 @@ async function submit() {
   
   await auth.register(userCredentials.value as User)
   
-  router.push({name: 'login'});
   errors.value = auth.errors;
   formProcessing.value = auth.processing;
+
+  if(errors.value === undefined) {
+    router.push({name: 'login'});
+  }
 }
 </script>
 

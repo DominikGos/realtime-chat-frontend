@@ -24,19 +24,35 @@ export default class AuthService extends FormService {
     }
 
     public async login(user: User): Promise<void> {
-        await this.send('post', '/login', user)
+        try {
+            await this.send('post', '/login', user)
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     public async register(user: User): Promise<void> {
-        await this.send('post', '/register', user)
+        try {
+            await this.send('post', '/register', user)
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     public async logout(): Promise<void> {
-        await this.send('post', '/logout', undefined)
+        try {
+            await this.send('post', '/logout', undefined)
+        } catch (error) {
+            console.error(error);
+        }       
     }
 
     public async getAuthUser(): Promise<void> {
-        await this.send('get', '/user');
+        try {
+            await this.send('get', '/user');
+        } catch (error) {
+            console.error(error);
+        }  
     }
 
     public async userHasValidToken(userFromTheBrowser: User | null): Promise<boolean> {
@@ -49,7 +65,7 @@ export default class AuthService extends FormService {
         await this.axiosService!.setAuthToken(userFromTheBrowser.token!);
 
         try {
-            this.initUserData(userFromTheBrowser.token)
+            await this.initUserData(userFromTheBrowser.token)
            
             return true;
         } catch (error) {
