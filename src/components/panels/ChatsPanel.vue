@@ -39,6 +39,27 @@ watch(
   }
 )
 
+watch(
+  () => store.state.broadcastedData.removedMessage,
+  (removedMessageResource?: Message) => {
+    if (!removedMessageResource)
+      return;
+
+    chats.value.forEach((chat: Chat, index: number) => {
+      if (chat.id === removedMessageResource.chat!.id) {
+        const chatWithRemovedMessage: Chat = chat;
+        chatWithRemovedMessage.last_message = {
+          user: removedMessageResource.user,
+          text: 'Removed message.',
+          files_links: []
+        };
+
+        chats.value[index] = chatWithRemovedMessage;
+      }
+    })
+  }
+)
+
 async function loadChats(start: number): Promise<void> {
   loading.value = true;
 
