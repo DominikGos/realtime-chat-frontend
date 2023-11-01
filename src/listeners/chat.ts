@@ -1,4 +1,6 @@
+import type Chat from "@/interfaces/Chat";
 import type Message from "@/interfaces/Message";
+import type User from "@/interfaces/User";
 import { store } from "@/store";
 import { watch } from "vue";
 
@@ -13,6 +15,8 @@ export function listenChats() {
       ids.forEach(chatId => {
         window.Echo.private(`chat.${chatId}`)
           .listen('MessageSent', (e: any) => {
+            console.log(e);
+            
             const message: Message = e.message;
             message.chat_id = chatId
 
@@ -26,5 +30,23 @@ export function listenChats() {
           })
       })
     }
+  )
+}
+
+export function listenNewChats() {
+   watch(
+    () => store.state.auth.user,
+    (authUser?: User) => {
+      if (!authUser)
+        return; 
+
+      window.Echo.private(`new.chat.with.user.${authUser.id}`)
+        .listen('ChatCreated', (e: any) => {
+          const userChatsIds: number[] = store.state.auth.chatsIds;
+          const createdChat: Chat = e.chat;
+
+          store.commit('setUserChatsIds', [...userChatsIds, ...[createdChat.id]])
+        })
+    }, {immediate: true}
   )
 }

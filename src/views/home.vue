@@ -9,7 +9,7 @@ import Pusher from 'pusher-js';
 import AuthService from '../services/AuthService';
 import { watch } from 'vue';
 import type Message from '@/interfaces/Message';
-import { listenChats } from '@/listeners/chat';
+import { listenChats, listenNewChats } from '@/listeners/chat';
 import { listenUsers } from '@/listeners/user';
 
 const authService = new AuthService;
@@ -30,6 +30,8 @@ window.Echo = new Echo({
 
 listenChats();
 listenUsers();
+listenNewChats();
+
 </script>
 
 <template>
