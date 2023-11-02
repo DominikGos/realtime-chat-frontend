@@ -28,7 +28,7 @@ export function listenChats() {
             store.commit('setRemovedMessage', message)
           })
       })
-    }
+    }, {immediate: true}
   )
 }
 

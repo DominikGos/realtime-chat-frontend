@@ -6,32 +6,38 @@ import { store } from '@/store';
 import ProfileVue from '@/components/Profile.vue';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
-import AuthService from '../services/AuthService';
 import { watch } from 'vue';
-import type Message from '@/interfaces/Message';
 import { listenChats, listenNewChats } from '@/listeners/chat';
 import { listenUsers } from '@/listeners/user';
+import type User from '@/interfaces/User';
 
-const authService = new AuthService;
 window.Pusher = Pusher;
 
-window.Echo = new Echo({
-  authEndpoint: 'http://realtime-chat/broadcasting/auth',
-  broadcaster: 'pusher',
-  key: import.meta.env.VITE_PUSHER_APP_KEY,
-  cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-  forceTLS: true,
-  auth: {
-    headers: {
-      Authorization: 'Bearer ' + authService.getUserFromTheBrowser()?.token
-    },
-  },
-});
+watch(
+  () => store.state.auth.user, 
+  (user?: User) => {
+    if (!user)
+      return;
+
+    window.Echo = new Echo({
+      authEndpoint: `${import.meta.env.VITE_API_HOST}/broadcasting/auth`,
+      broadcaster: 'pusher',
+      key: import.meta.env.VITE_PUSHER_APP_KEY,
+      cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+      forceTLS: true,
+      auth: {
+        headers: {
+          Authorization: 'Bearer ' + user?.token
+        },
+      },
+    });
+
+  }, { immediate: true }
+);
 
 listenChats();
 listenUsers();
 listenNewChats();
-
 </script>
 
 <template>
