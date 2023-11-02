@@ -20,11 +20,11 @@ const messageProccesing = ref(false);
 async function sendMessage() {
   messageProccesing.value = true;
 
-  await messageService.createMessage(chat.id, message.value)  
-  
+  await messageService.createMessage(chat.id, message.value)
+
   messageProccesing.value = false;
 
-  if( ! messageService.errors) {
+  if (!messageService.errors) {
     message.value.text = undefined;
     message.value.files_links = [];
     message.value.created_at = undefined;
@@ -34,7 +34,7 @@ async function sendMessage() {
 }
 
 function changeSendButtonVisibility(): void {
-  if(message.value.files_links.length > 0)
+  if (message.value.files_links.length > 0)
     showSendButton.value = true;
   else if (message.value.text && message.value.text.length > 0)
     showSendButton.value = true
@@ -44,13 +44,13 @@ function changeSendButtonVisibility(): void {
 
 async function addFile(e: any): Promise<void> {
   const input = e.target as HTMLInputElement;
-  
+
   await messageService.createFile(input.files!);
 
-  if( ! messageService.errors) {
+  if (!messageService.errors) {
     message.value.files_links = [...message.value.files_links, ...messageService.data.files_links];
   }
-  
+
   input.value = '';
   changeSendButtonVisibility();
 }
@@ -58,8 +58,8 @@ async function addFile(e: any): Promise<void> {
 async function removeFile(fileLink: string): Promise<void> {
   await messageService.removeFile(fileLink);
 
-  if( ! messageService.errors) {
-    const index: number = message.value.files_links.indexOf(fileLink);    
+  if (!messageService.errors) {
+    const index: number = message.value.files_links.indexOf(fileLink);
     message.value.files_links.splice(index, 1)
   }
 
@@ -67,7 +67,7 @@ async function removeFile(fileLink: string): Promise<void> {
 }
 
 const textInputClasses = computed(() => {
-  let classes: string = 'peer py-2 pl-3 pr-10 w-full border-r border-l border-b border-gray-100 focus:border-gray-300 bg-gray-100 focus:bg-white focus:outline-none text-gray-800 transition duration-300 ease-in ';
+  let classes: string = 'peer py-2 pl-3 pr-10 w-full shadow-md border-r border-l border-b border-gray-100 focus:shadow-none focus:border-gray-300 bg-gray-100 focus:bg-white focus:outline-none text-gray-800 transition duration-300 ease-in ';
 
   if (message.value.files_links.length > 0) {
     classes += 'rounded-bl-3xl rounded-br-3xl'
@@ -80,23 +80,25 @@ const textInputClasses = computed(() => {
 </script>
 
 <template>
-  <form @submit.prevent="sendMessage" class="flex gap-3 items-center w-full p-3 border-t-2 border-gray-100 bg-white ">
+  <form @submit.prevent="sendMessage"
+    class="flex gap-3 ps-3 pe-3 items-center w-full border-t-2 border-gray-100 bg-white ">
     <div class="flex gap-2 items-center">
       <input @change="addFile" type="file" ref="file" id="file" class="hidden" multiple />
       <label for="file" class="cursor-pointer">
         <i class="fa-regular fa-image text-cyan-400"></i>
       </label>
     </div>
-    <div class="flex flex-col-reverse w-full overflow-hidden">
-      <input @input="changeSendButtonVisibility" v-model="message.text" :class="textInputClasses" type="text" placeholder="Type your message ..." />
+    <div class="flex flex-col-reverse w-full overflow-hidden p-3">
+      <input @input="changeSendButtonVisibility" v-model="message.text" :class="textInputClasses" type="text"
+        placeholder="Type your message ..." />
       <div v-if="message.files_links.length > 0"
-        class="flex gap-2 peer-focus:bg-white peer-focus:border-t peer-focus:border-r peer-focus:border-l peer-focus:border-b-transparent border border-transparent  peer-focus:border-gray-300 transition duration-300 ease-in overflow-x-auto bg-gray-100 p-3 rounded-tl-2xl rounded-tr-2xl scrollbar-thin scrollbar-thumb-gray-300">
-        <FormFile v-for="fileLink in message.files_links" @removeFile="removeFile" :fileLink="fileLink"/>
+        class="flex gap-2 peer-focus:bg-white peer-focus:border-t shadow-md peer-focus:shadow-none peer-focus:border-r peer-focus:border-l peer-focus:border-b-transparent border border-transparent  peer-focus:border-gray-300 transition duration-300 ease-in overflow-x-auto bg-gray-100 p-3 rounded-tl-2xl rounded-tr-2xl scrollbar-thin scrollbar-thumb-gray-300">
+        <FormFile v-for="fileLink in message.files_links" @removeFile="removeFile" :fileLink="fileLink" />
       </div>
     </div>
     <Transition name="fade">
       <button v-if="showSendButton">
-        <LoadingSpinner v-if="messageProccesing"/>
+        <LoadingSpinner v-if="messageProccesing" />
         <i v-else class="fa-solid fa-paper-plane text-cyan-400 w-6 h-6 min-w-[1.5rem] min-h-[1.5rem]"></i>
       </button>
     </Transition>
