@@ -22,6 +22,15 @@ const router = createRouter({
       beforeEnter: [onlyAuthenticated],
       component: () => import('../views/home.vue')
     },
+    {
+      path: '',
+      redirect: to => {
+        return {
+          name: 'login',
+          query: { redirect: to.fullPath },
+        }
+      },
+    }
   ]
 });
 
