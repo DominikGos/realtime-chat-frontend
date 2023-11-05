@@ -60,6 +60,22 @@ watch(
   }
 )
 
+watch(
+  () => store.state.broadcastedData.updatedUser,
+  (updatedUserResource?: User) => {
+    if (!updatedUserResource)
+      return;
+
+    chats.value.forEach((chat: Chat, index: number) => {
+      chat.users.forEach((user: User, userIndex: number) => {
+        if(user.id === updatedUserResource.id) {
+          chats.value[index].users[userIndex] = updatedUserResource;
+        }
+      })
+    })
+  }
+)
+
 async function loadChats(start: number): Promise<void> {
   loading.value = true;
 

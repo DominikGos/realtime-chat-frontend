@@ -38,7 +38,8 @@ async function deleteMessage(message: MessageInterface): Promise<void> {
         <button class="text-center text-sm" @click="showSettings = false">Close</button>
       </MessageSettings>
     </Transition>
-    <div class="p-3 flex flex-col h-min  max-w-[256px] ">
+    
+    <div :class="[userIsAuthor ? 'items-end' : 'items-start', 'p-3 flex flex-col h-min max-w-[256px]']">
       <div class="flex gap-3 items-end relative">
         <div v-if="userIsAuthor === false">
           <Avatar :size="'small'" :avatar="message.user.avatar_link" />
