@@ -30,6 +30,10 @@ const router = createRouter({
           query: { redirect: to.fullPath },
         }
       },
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('../views/errors/notFound.vue')
     }
   ]
 });
