@@ -2,16 +2,30 @@
 import NavButton from './buttons/NavButton.vue';
 import Modal from './Modal.vue';
 import CustomButton from './buttons/CustomButton.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import AuthService from '@/services/AuthService';
 import { useRouter, type Router } from 'vue-router';
 import { store } from '@/store';
 import Avatar from './Avatar.vue';
+import type User from '@/interfaces/User';
 
 const authService: AuthService = new AuthService;
+const authUser = ref<User>(store.state.auth.user)
 const logoutConfirmationIsOpen = ref(false);
 const logoutSpinner = ref(false);
 const router: Router = useRouter();
+
+watch(
+  () => store.state.broadcastedData.updatedUser,
+  (updatedUserResource?: User) => {
+    if (!updatedUserResource)
+      return;
+
+    if(updatedUserResource.id === authUser.value.id) {
+      authUser.value = updatedUserResource;
+    }
+  }
+)
 
 function showLogoutConfirmation(): void {
   logoutConfirmationIsOpen.value = true;
@@ -70,7 +84,7 @@ function showProfile(): void {
       </li>
       <li>
         <button @click="showProfile">
-          <Avatar :size="'small'" :avatar="store.state.auth.user?.avatar_link"/>
+          <Avatar :size="'small'" :avatar="authUser.avatar_link"/>
         </button>
       </li>
     </ul>

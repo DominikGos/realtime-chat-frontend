@@ -48,14 +48,12 @@ async function removeAvatar(avatarLink: string): Promise<void> {
   await userService.removeFile(avatarLink);
 
   if (!userService.errors) {
-    console.log('???');
-    
-    userToUpdate.value.avatar_link = undefined;
+    removeAvatarLink();
   }
 }
 
 function removeAvatarLink(): void {
-  userToUpdate.value.avatar_link = undefined;
+  userToUpdate.value.avatar_link = '';
 }
 
 async function resetForm(): Promise<void> {
@@ -65,6 +63,7 @@ async function resetForm(): Promise<void> {
 
   userToUpdate.value = Object.assign({}, userInitialState);
 }
+
 </script>
 
 <template>
