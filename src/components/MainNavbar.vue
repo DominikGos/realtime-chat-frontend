@@ -41,7 +41,6 @@ async function logout(): Promise<void> {
   await authService.logout();
 
   logoutSpinner.value = false;
-  store.commit('setUser', undefined);
   authService.removeUserFromTheBrowser();  
   router.push({name: 'login'});
 }

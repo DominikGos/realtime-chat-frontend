@@ -33,7 +33,7 @@ function hideProfile(): void {
 }
 
 const itsAuthUser = computed<Boolean>(() => {
-  return user.value.id === store.state.auth.user.id;
+  return user.value.id === store.state.auth.user?.id;
 })
 </script>
 

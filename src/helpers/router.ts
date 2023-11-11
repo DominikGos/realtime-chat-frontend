@@ -1,9 +1,15 @@
 import AuthService from "@/services/AuthService";
+import type User from "@/interfaces/User";
 
 const authService = new AuthService;
 
 export async function onlyAuthenticated(to: any): Promise<any> {
-    const tokenIsValid = await authService.userHasValidToken(authService.getUserFromTheBrowser());
+    const user: User | null = authService.getUserFromTheBrowser();
+    let tokenIsValid: Boolean = false;
+
+    if(user && user.token) {
+        tokenIsValid = await authService.userHasValidToken(user.token);
+    }
 
     if (tokenIsValid) {
         return true;
@@ -16,7 +22,12 @@ export async function onlyAuthenticated(to: any): Promise<any> {
 }
 
 export async function onlyUnauthenticated(to: any): Promise<any> {
-    const tokenIsValid = await authService.userHasValidToken(authService.getUserFromTheBrowser());
+    const user: User | null = authService.getUserFromTheBrowser();
+    let tokenIsValid: Boolean = false;
+
+    if(user && user.token) {
+        tokenIsValid = await authService.userHasValidToken(user.token);
+    }
 
     if (tokenIsValid) {
         return {
