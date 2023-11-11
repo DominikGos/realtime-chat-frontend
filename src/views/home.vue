@@ -3,7 +3,7 @@ import Panel from '../components/panels/Panel.vue';
 import MainNavbar from '../components/MainNavbar.vue';
 import Chat from '../components/chat/Chat.vue';
 import { store } from '@/store';
-import ProfileVue from '@/components/Profile.vue';
+import ProfileVue from '@/components/profile/Profile.vue';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import { watch } from 'vue';
