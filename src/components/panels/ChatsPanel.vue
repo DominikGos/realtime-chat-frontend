@@ -123,12 +123,24 @@ function lastMessage(message: Message): string {
 }
 
 async function setChat(chat: Chat) {
+  readMessages(chat);
+
   store.commit('setChat', chat);
 }
 
 function chatHasUnreadMessages(chat: Chat): boolean {
   return (chat.unread_messages && chat.unread_messages > 0) as boolean;
 }
+
+
+async function readMessages(chat: Chat): Promise<void> {
+  await chatService.destroyUnreadMessages(chat.id);  
+
+  if( ! chatService.errors) {
+    chat.unread_messages = 0;
+  }
+}
+
 
 await loadChats(offset);
 </script>
@@ -158,7 +170,8 @@ await loadChats(offset);
             <div class="h-full flex items-center justify-end">
               <div v-if="chatHasUnreadMessages(chat)"
                 class="flex items-center justify-center bg-cyan-400 w-4 h-4 rounded-full text-white text-xs">
-                {{ chat.unread_messages }}
+                <p v-if="chat.unread_messages && chat.unread_messages >= 10">9+</p>
+                <p v-else>{{ chat.unread_messages }}</p>
               </div>
             </div>
           </div>
