@@ -26,6 +26,13 @@ watch(
         chatWithNewMessageIndex = index;
         const chatWithNewMessage: Chat = newMessageResource.chat!
         chatWithNewMessage.last_message = newMessageResource
+
+        if(store.state.auth.user?.id != newMessageResource.user?.id) {
+          const chatUnreadMessages: number = chat.unread_messages ?? 0;
+          chatWithNewMessage.unread_messages = chatUnreadMessages;
+          chatWithNewMessage.unread_messages ++;
+        }
+
         chats.value.splice(index, 1);
         chats.value.unshift(chatWithNewMessage)
       }
