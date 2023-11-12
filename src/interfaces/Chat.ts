@@ -6,5 +6,6 @@ export default interface Chat {
     created_at?: string,
     updated_at?: string,
     last_message?: Message,
+    unread_messages?: number,
     users: User[],
 }

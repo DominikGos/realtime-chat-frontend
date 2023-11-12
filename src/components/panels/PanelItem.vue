@@ -27,7 +27,7 @@ const classes = computed(() => {
     <div class="flex flex-col items-start justify-center text-sm ps-2 pe-2 w-full">
       <slot name="middle"></slot>
     </div>
-    <div class="absolute right-0 pe-2 flex justify-end text-xs bg-inherit h-full">
+    <div class="absolute right-0 top-0 pt-1 pb-1 pe-2 flex justify-end text-xs bg-inherit h-full">
       <slot name="end"></slot>
     </div>
   </div>

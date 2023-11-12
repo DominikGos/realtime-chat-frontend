@@ -68,7 +68,7 @@ watch(
 
     chats.value.forEach((chat: Chat, index: number) => {
       chat.users.forEach((user: User, userIndex: number) => {
-        if(user.id === updatedUserResource.id) {
+        if (user.id === updatedUserResource.id) {
           chats.value[index].users[userIndex] = updatedUserResource;
         }
       })
@@ -119,6 +119,10 @@ async function setChat(chat: Chat) {
   store.commit('setChat', chat);
 }
 
+function chatHasUnreadMessages(chat: Chat): boolean {
+  return (chat.unread_messages && chat.unread_messages > 0) as boolean;
+}
+
 await loadChats(offset);
 </script>
 
@@ -133,11 +137,24 @@ await loadChats(offset);
             :avatar="getFriend(chat.users)?.avatar_link" />
         </template>
         <template v-slot:middle>
-          <p>{{ getFriend(chat.users)?.first_name }} {{ getFriend(chat.users)?.last_name }}</p>
-          <p class="text-gray-400 truncate w-[calc(100%-60px)]"> {{ lastMessage(chat.last_message!) }} </p>
+          <p class="truncate w-[calc(100%-60px)]">
+            {{ getFriend(chat.users)?.first_name }}
+            {{ getFriend(chat.users)?.last_name }}
+          </p>
+          <p :class="[chatHasUnreadMessages(chat) ? 'text-cyan-400' : 'text-gray-400', ' truncate w-[calc(100%-60px)]']">
+            {{ lastMessage(chat.last_message!) }}
+          </p>
         </template>
         <template v-slot:end>
-          <p class="text-xs">{{ chat.last_message?.created_at }}</p>
+          <div class="flex flex-col">
+            <p class="text-xs">{{ chat.last_message?.created_at }}</p>
+            <div class="h-full flex items-center justify-end">
+              <div v-if="chatHasUnreadMessages(chat)"
+                class="flex items-center justify-center bg-cyan-400 w-4 h-4 rounded-full text-white text-xs">
+                {{ chat.unread_messages }}
+              </div>
+            </div>
+          </div>
         </template>
       </PanelItem>
     </TransitionGroup>
