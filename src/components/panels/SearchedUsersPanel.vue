@@ -6,6 +6,7 @@ import LoadingSpinner from '../LoadingSpinner.vue';
 import { ref, watch } from 'vue';
 import type User from '@/interfaces/User';
 import UserServive from '@/services/UserService';
+import { createChat } from '@/helpers/createChat';
 
 const props = defineProps<{
   userName?: string,
@@ -51,7 +52,7 @@ async function searchUsers(userName: string): Promise<void> {
 <template>
   <ScrollBar class="flex flex-col gap-3 pb-5 h-[calc(100%-94px)]">
     <TransitionGroup name="list">
-      <PanelItem v-for="user in users" :key="user.id">
+      <PanelItem v-for="user in users" :key="user.id" @click="createChat(user.id!)">
         <template v-slot:start>
           <Avatar :size="'medium'" :active="user.signed_in" :avatar="user.avatar_link" />
         </template>

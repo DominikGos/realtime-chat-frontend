@@ -5,9 +5,9 @@ import ScrollBar from '../ScrollBar.vue';
 import { ref, computed, watch } from 'vue';
 import { store } from '@/store';
 import type User from '@/interfaces/User';
-import type Chat from '@/interfaces/Chat';
 import UserService from '@/services/UserService';
 import ChatService from '@/services/ChatService';
+import { createChat } from '@/helpers/createChat';
 
 const userService: UserService = new UserService;
 const chatService: ChatService = new ChatService;
@@ -55,16 +55,6 @@ function loadAfterScroll(e: any): void {
       await loadUsers(offset);
     }
   }, 1000);
-}
-
-async function createChat(friendId: number): Promise<void> {
-  await chatService.createChat(friendId);
-
-  const userChatsIds: number[] = store.state.auth.chatsIds;
-  const createdChat: Chat = chatService.data.chat;
-
-  store.commit('setChat', chatService.data.chat);
-  store.commit('setUserChatsIds', [...userChatsIds, ...[createdChat.id]])
 }
 
 const userList = computed<User[]>(() => {
