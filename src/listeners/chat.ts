@@ -8,7 +8,7 @@ export function listenChats() {
   return watch(
     () => store.state.auth.chatsIds,
     (ids?: number[]) => {
-      if (!ids?.length) {
+      if (! ids) {
         return;
       }
 

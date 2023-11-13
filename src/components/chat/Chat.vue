@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import ChatHeader from './ChatHeader.vue';
 import ChatFooter from './ChatFooter.vue';
+import ChatError from './ChatError.vue';
+import FileModal from '../FileModal.vue';
+import Avatar from '../Avatar.vue';
 import MessageWrapper from './MessageWrapper.vue';
+import ScrollBar from '../ScrollBar.vue';
 import { onErrorCaptured, ref, watch } from 'vue';
 import { store } from '@/store';
 import type Chat from '@/interfaces/Chat';
 import type User from '@/interfaces/User';
 import type Message from '@/interfaces/Message';
-import Avatar from '../Avatar.vue';
 import MessageService from '@/services/MessageService'
-import ChatError from './ChatError.vue';
-import FileModal from '../FileModal.vue';
 
 const chat = ref<Chat>();
 const friend = ref<User>();
@@ -61,7 +62,7 @@ watch(
           messageIndex = index;
       });
 
-      if(messageIndex === 0 || messageIndex) {
+      if (messageIndex === 0 || messageIndex) {
         messages.value.splice(messageIndex, 1)
         messagesOffset--;
       }
@@ -139,12 +140,11 @@ function showProfile(user?: User): void {
         }}</p>
       </template>
     </ChatHeader>
-    <main @scroll="loadAfterScroll"
-      class="h-full w-full flex flex-col-reverse gap-3 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300">
+    <ScrollBar class="h-full w-full flex flex-col-reverse gap-3" @scroll="loadAfterScroll">
       <TransitionGroup name="list">
         <MessageWrapper v-for="message in messages" :key="message.id" :message="message" />
       </TransitionGroup>
-    </main>
+    </ScrollBar>
     <ChatFooter />
   </div>
 </template>

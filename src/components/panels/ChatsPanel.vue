@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import PanelItem from './PanelItem.vue';
 import Avatar from '../Avatar.vue';
+import ScrollBar from '../ScrollBar.vue';
 import { computed, onBeforeMount, ref, watch } from 'vue';
+import { store } from '@/store';
 import ChatService from '@/services/ChatService';
 import type Chat from '@/interfaces/Chat';
 import type User from '@/interfaces/User';
-import { store } from '@/store';
 import type Message from '@/interfaces/Message';
 
 const chatService: ChatService = new ChatService;
@@ -27,10 +28,10 @@ watch(
         const chatWithNewMessage: Chat = newMessageResource.chat!
         chatWithNewMessage.last_message = newMessageResource
 
-        if(store.state.auth.user?.id != newMessageResource.user?.id) {
+        if (store.state.auth.user?.id != newMessageResource.user?.id) {
           const chatUnreadMessages: number = chat.unread_messages ?? 0;
           chatWithNewMessage.unread_messages = chatUnreadMessages;
-          chatWithNewMessage.unread_messages ++;
+          chatWithNewMessage.unread_messages++;
         }
 
         chats.value.splice(index, 1);
@@ -134,9 +135,9 @@ function chatHasUnreadMessages(chat: Chat): boolean {
 
 
 async function readMessages(chat: Chat): Promise<void> {
-  await chatService.destroyUnreadMessages(chat.id);  
+  await chatService.destroyUnreadMessages(chat.id);
 
-  if( ! chatService.errors) {
+  if (!chatService.errors) {
     chat.unread_messages = 0;
   }
 }
@@ -146,8 +147,7 @@ await loadChats(offset);
 </script>
 
 <template>
-  <div
-    class="flex flex-col gap-3 pb-5 overflow-y-scroll h-[calc(100%-94px)] scrollbar-thin scrollbar-thumb-gray-300 overflow-hidden">
+  <ScrollBar class="flex flex-col gap-3 pb-5 h-[calc(100%-94px)]">
     <TransitionGroup name="list">
       <PanelItem v-for="chat in chatList" :key="chat.id" @click="setChat(chat)"
         :active="chat?.id == store.state.components.chat?.id">
@@ -179,5 +179,5 @@ await loadChats(offset);
       </PanelItem>
     </TransitionGroup>
     <p v-if="(!loading) && chatList.length === 0" class="text-sm text-center">You have no any conversations.</p>
-  </div>
+  </ScrollBar>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type ModalFile from '@/interfaces/ModalFile';
+import ScrollBar from './ScrollBar.vue';
 import { store } from '@/store';
 import { computed, ref, watch } from 'vue'
 
@@ -31,7 +32,7 @@ const backgroundClasses = computed(() => {
     showFileModal.value
       ? 'backdrop-brightness-50 visible opacity-100'
       : 'backdrop-brightness-100  invisible opacity-0'
-    , 'mx-auto p-5 w-screen h-screen fixed top-0 right-0 left left-0 transition-all duration-500 z-50 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300'
+    , 'mx-auto p-5 w-screen h-screen fixed top-0 right-0 left left-0 transition-all duration-500 z-50'
   ]
 })
 
@@ -43,12 +44,11 @@ const bodyClasses = computed(() => {
     , 'flex justify-center items-center mt-5 bg-white w-auto shadow-md transition-all duration-500 mx-auto z-50 w-min-[80%] lg:w-[50%]'
   ]
 })
-
 </script>
 
 <template>
-  <div :class="backgroundClasses" @click="closeFileModal">
+  <ScrollBar :class="backgroundClasses" @click="closeFileModal">
     <img v-if="file?.type === 'image'" :src="file.link" :class="bodyClasses">
     <video v-else-if="file?.type === 'video'" :src="file.link" :class="bodyClasses" autoplay loop controls></video>
-  </div>
+  </ScrollBar>
 </template>
