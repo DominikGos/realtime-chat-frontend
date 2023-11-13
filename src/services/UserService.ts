@@ -1,12 +1,12 @@
 import type User from "@/interfaces/User";
 import FormService from "./FormService";
 
-export default class UserService extends FormService{
+export default class UserService extends FormService {
     public async getUsers(start: number, limit?: number): Promise<void> {
-        const endpoint = limit 
+        const endpoint = limit
             ? `/users?start=${start}&limit=${limit}`
             : `/users?start=${start}`;
-        
+
         await this.send('get', endpoint);
     }
 
@@ -21,7 +21,11 @@ export default class UserService extends FormService{
             console.error(error);
         }
     }
-    
+
+    public async searchUsers(userName: string): Promise<void> {
+        await this.send('get', `/users/${userName}`);
+    }
+
     public async createFile(files: FileList): Promise<void> {
         try {
             await this.send(
