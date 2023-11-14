@@ -126,8 +126,10 @@ function lastMessage(message: Message): string {
   return lastMessage;
 }
 
-async function setChat(chat: Chat) {
-  readMessages(chat);
+async function setChat(chat: Chat): Promise<void> {
+  if(chatHasUnreadMessages(chat)) {
+    readMessages(chat);
+  }
 
   store.commit('setChat', chat);
 }
