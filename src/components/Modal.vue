@@ -14,8 +14,8 @@ const props = defineProps({
 const backgroundClasses = computed(() => {
   return [
     props.active
-      ? 'backdrop-brightness-50 visible opacity-100'
-      : 'backdrop-brightness-100 invisible opacity-0'
+      ? 'bg-black/50 visible opacity-100'
+      : 'bg-black/0 invisible opacity-0'
     , 'mx-auto p-3 w-screen h-screen fixed top-0 right-0 left left-0 transition-all duration-500 z-50'
   ]
 })
