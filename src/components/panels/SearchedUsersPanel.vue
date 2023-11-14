@@ -7,6 +7,7 @@ import { ref, watch } from 'vue';
 import type User from '@/interfaces/User';
 import UserServive from '@/services/UserService';
 import { createChat } from '@/helpers/createChat';
+import { store } from '@/store';
 
 const props = defineProps<{
   userName?: string,
@@ -44,7 +45,9 @@ async function searchUsers(userName: string): Promise<void> {
   await userService.searchUsers(userName);
 
   if (!userService.errors) {
-    users.value = userService.data.users;
+    users.value = userService.data.users.filter((user: User) => {
+      return user.id !== store.state.auth.user.id;
+    })
   }
 }
 </script>
