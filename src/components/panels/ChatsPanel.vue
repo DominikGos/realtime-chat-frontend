@@ -42,6 +42,8 @@ watch(
     if (typeof chatWithNewMessageIndex !== 'number') {
       const chatWithNewMessage: Chat = newMessageResource.chat!
       chatWithNewMessage.last_message = newMessageResource
+      chatWithNewMessage.unread_messages = 0;
+      chatWithNewMessage.unread_messages++;
       chats.value.unshift(chatWithNewMessage)
     }
   }
@@ -59,7 +61,8 @@ watch(
         chatWithRemovedMessage.last_message = {
           user: removedMessageResource.user,
           text: 'Removed message.',
-          files_links: []
+          files_links: [],
+          created_at: removedMessageResource.created_at,
         };
 
         chats.value[index] = chatWithRemovedMessage;
