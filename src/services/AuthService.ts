@@ -16,47 +16,29 @@ export default class AuthService extends FormService {
         this.userService = new UserService;
     }
 
-  /*   private async initUserData(authToken: string): Promise<void> {
-        await this.getAuthUser();
-        await this.userService?.getUserChatsIds();
-        
-        store.commit('setUser', {...this.data.user, ... {token: authToken}}); 
-        store.commit('setUserChatsIds', this.userService?.data.ids);
-    } */
-
     public async login(user: User): Promise<void> {
-        try {
-            await this.send('post', '/login', user)
-        } catch (error) {
-            console.error(error);
-        }
+        await this.send('post', '/login', user)
     }
 
     public async register(user: User): Promise<void> {
-        try {
-            await this.send('post', '/register', user)
-        } catch (error) {
-            console.error(error);
-        }
+        await this.send('post', '/register', user)
     }
 
     public async logout(): Promise<void> {
-        try {
-            await this.send('post', '/logout', undefined)
+        await this.send('post', '/logout', undefined)
 
+        if (!this.errors) {
             clearState();
-        } catch (error) {
-            console.error(error);
-        }       
+        }
     }
 
     public async userHasValidToken(token: string): Promise<boolean> {
         try {
-            await this.send('get', '/user', undefined, {Authorization: `Bearer ${token}`});
+            await this.send('get', '/user', undefined, { Authorization: `Bearer ${token}` });
             await this.axiosService!.setAuthToken(token);
             await this.userService?.getUserChatsIds();
-        
-            store.commit('setUser', {...this.data.user, ... {token: token}}); 
+
+            store.commit('setUser', { ...this.data.user, ... { token: token } });
             store.commit('setUserChatsIds', this.userService?.data.ids);
 
             return true;
@@ -76,7 +58,7 @@ export default class AuthService extends FormService {
         const userString: string = localStorage.getItem('user')!;
         let user: User | null = null;
 
-        if(userString) {
+        if (userString) {
             user = JSON.parse(userString) as User;
         }
 

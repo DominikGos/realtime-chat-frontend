@@ -15,11 +15,7 @@ export default class UserService extends FormService {
     }
 
     public async updateUser(user: User): Promise<void> {
-        try {
-            await this.send('put', `/users/${user.id}`, user);
-        } catch (error) {
-            console.error(error);
-        }
+        await this.send('put', `/users/${user.id}`, user);
     }
 
     public async searchUsers(userName: string): Promise<void> {
@@ -27,27 +23,20 @@ export default class UserService extends FormService {
     }
 
     public async createFile(files: FileList): Promise<void> {
-        try {
-            await this.send(
-                'post',
-                '/users/files',
-                { files: files },
-                { 'Content-Type': 'multipart/form-data' }
-            )
-        } catch (error: any) {
-            console.error(error);
-        }
+        await this.send(
+            'post',
+            '/users/files',
+            { files: files },
+            { 'Content-Type': 'multipart/form-data' }
+        )
+
     }
 
     public async removeFile(fileLink: string): Promise<void> {
-        try {
-            await this.send(
-                'delete',
-                '/users/files',
-                { file_link: fileLink }
-            );
-        } catch (error: any) {
-            console.error(error);
-        }
+        await this.send(
+            'delete',
+            '/users/files',
+            { file_link: fileLink }
+        );
     }
 }

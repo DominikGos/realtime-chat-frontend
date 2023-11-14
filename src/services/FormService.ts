@@ -4,6 +4,7 @@ export default class FormService {
     public processing: boolean = false;
     public data?: any;
     public errors?: any;
+    public errorMessage?: string;
 
     public async send(method: string, endpoint: string, data?: object, headers?: any): Promise<void> {
         this.processing = true;
@@ -15,15 +16,16 @@ export default class FormService {
                 data: data,
                 headers: headers,
             });
-            this.clearErrors();
+            this.setErrors(undefined);
+            this.setErrorMessage(undefined);
             this.data = response?.data;
             this.processing = false;
         } catch (e: any) {
             this.processing = false;
 
             if (e.response?.data.errors) {
+                this.setErrorMessage(e.response.data.message);
                 this.setErrors(e.response.data.errors)
-                throw e.response.data
             } else if (e.response?.data)
                 throw e.response.data
             else
@@ -31,11 +33,11 @@ export default class FormService {
         }
     }
 
-    private clearErrors(): void {
-        this.errors = undefined;
+    private setErrors(errors?: AxiosError): void {
+        this.errors = errors;
     }
 
-    private setErrors(errors: AxiosError): void {
-        this.errors = errors;
+    private setErrorMessage(message?: string): void {
+        this.errorMessage = message;
     }
 }

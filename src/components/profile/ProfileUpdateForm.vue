@@ -28,7 +28,10 @@ async function updateProfile(): Promise<void> {
   await userService.updateUser(userToUpdate.value);
 
   errors.value = userService.errors;
-  userInitialState = Object.assign({}, userToUpdate.value);
+
+  if( ! userService.errors) {
+    userInitialState = Object.assign({}, userToUpdate.value);
+  }
   userUpdateLoading.value = false;
 }
 
