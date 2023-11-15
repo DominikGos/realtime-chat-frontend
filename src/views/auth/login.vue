@@ -41,7 +41,7 @@ async function submit() {
       </header>
       <div class="flex flex-col gap-3">
         <InputLabel>E-mail</InputLabel>
-        <CustomInput type="email" v-model="userCredentials.email" :invalid="errors?.email" required autocomplete="email"/>
+        <CustomInput type="email" v-model="userCredentials.email" :invalid="errors?.email" required name="email" />
         <InputError v-if="errors?.email" :errors="errors.email"/>
       </div>
       <div class="flex flex-col gap-3">
