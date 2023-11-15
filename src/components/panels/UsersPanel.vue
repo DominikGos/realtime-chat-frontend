@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import PanelItem from './PanelItem.vue';
 import Avatar from '../Avatar.vue';
-import ScrollBar from '../ScrollBar.vue';
+import PanelScrollBar from './PanelScrollBar.vue';
 import { ref, computed, watch } from 'vue';
 import { store } from '@/store';
 import type User from '@/interfaces/User';
 import UserService from '@/services/UserService';
-import ChatService from '@/services/ChatService';
 import { createChat } from '@/helpers/createChat';
 
 const userService: UserService = new UserService;
-const chatService: ChatService = new ChatService;
 const users = ref<User[]>([]);
 const loading = ref(false);
 let offset: number = 0;
@@ -69,7 +67,7 @@ await loadUsers(offset);
 </script>
 
 <template>
-  <ScrollBar class="flex flex-col gap-3 pb-5 h-[calc(100%-94px)]" @scroll="loadAfterScroll">
+  <PanelScrollBar @scroll="loadAfterScroll">
     <PanelItem v-for="user in userList" :key="user.id" @click="createChat(user.id!)">
       <template v-slot:start>
         <Avatar :size="'medium'" :active="user.signed_in" :avatar="user.avatar_link" />
@@ -78,5 +76,5 @@ await loadUsers(offset);
         <p>{{ user.first_name }} {{ user.last_name }}</p>
       </template>
     </PanelItem>
-  </ScrollBar>
+  </PanelScrollBar>
 </template>

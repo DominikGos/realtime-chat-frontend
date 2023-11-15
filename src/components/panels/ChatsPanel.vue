@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import PanelItem from './PanelItem.vue';
 import Avatar from '../Avatar.vue';
-import ScrollBar from '../ScrollBar.vue';
-import { computed, onBeforeMount, ref, watch } from 'vue';
+import PanelScrollBar from './PanelScrollBar.vue';
+import { computed, ref, watch } from 'vue';
 import { store } from '@/store';
 import ChatService from '@/services/ChatService';
 import type Chat from '@/interfaces/Chat';
@@ -152,7 +152,7 @@ await loadChats(offset);
 </script>
 
 <template>
-  <ScrollBar class="flex flex-col gap-3 pb-5 h-[calc(100%-94px)]">
+  <PanelScrollBar>
     <TransitionGroup name="list">
       <PanelItem v-for="chat in chatList" :key="chat.id" @click="setChat(chat)"
         :active="chat?.id == store.state.components.chat?.id">
@@ -184,5 +184,5 @@ await loadChats(offset);
       </PanelItem>
     </TransitionGroup>
     <p v-if="(!loading) && chatList.length === 0" class="text-sm text-center">You have no any conversations.</p>
-  </ScrollBar>
+  </PanelScrollBar>
 </template>

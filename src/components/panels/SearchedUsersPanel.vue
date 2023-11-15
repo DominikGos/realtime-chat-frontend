@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PanelItem from './PanelItem.vue';
 import Avatar from '../Avatar.vue';
-import ScrollBar from '../ScrollBar.vue';
+import PanelScrollBar from './PanelScrollBar.vue';
 import LoadingSpinner from '../LoadingSpinner.vue';
 import { ref, watch } from 'vue';
 import type User from '@/interfaces/User';
@@ -53,7 +53,7 @@ async function searchUsers(userName: string): Promise<void> {
 </script>
 
 <template>
-  <ScrollBar class="flex flex-col gap-3 pb-5 h-[calc(100%-94px)]">
+  <PanelScrollBar>
     <TransitionGroup name="list">
       <PanelItem v-for="user in users" :key="user.id" @click="createChat(user.id!)">
         <template v-slot:start>
@@ -67,5 +67,5 @@ async function searchUsers(userName: string): Promise<void> {
     <Transition name="fade">
       <LoadingSpinner v-if="!delayOver" class="flex justify-center" />
     </Transition>
-  </ScrollBar>
+  </PanelScrollBar>
 </template>
