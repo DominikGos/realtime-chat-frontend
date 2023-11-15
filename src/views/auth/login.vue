@@ -6,13 +6,12 @@ import CustomButton from '../../components/buttons/CustomButton.vue';
 import { ref } from 'vue';
 import type User from '@/interfaces/User';
 import AuthService from '@/services/AuthService';
-import { store } from '@/store';
-import { useRouter } from 'vue-router';
+import { useRouter, type Router } from 'vue-router';
 
-const auth = new AuthService;
+const auth: AuthService = new AuthService;
 const errors = ref();
-const formProcessing = ref();
-const router = useRouter();
+const formProcessing = ref<boolean>();
+const router: Router = useRouter();
 const userCredentials = ref({
   email: '',
   password: '',
@@ -28,12 +27,10 @@ async function submit() {
 
   if(errors.value === undefined) {
     const user: User = {...auth.data?.user, ...{token: auth.data?.token}};
-    store.commit('setUser', user)
     auth.saveUserInTheBrowser(user);
     router.push({name: 'home'});
   }
 }
-
 </script>
 
 <template>

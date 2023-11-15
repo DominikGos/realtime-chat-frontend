@@ -6,12 +6,12 @@ import CustomButton from '../../components/buttons/CustomButton.vue';
 import { ref } from 'vue';
 import type User from '../../interfaces/User';
 import AuthService from '@/services/AuthService';
-import { useRouter } from 'vue-router';
+import { useRouter, type Router } from 'vue-router';
 
-const auth = new AuthService;
-const router = useRouter();
+const auth: AuthService = new AuthService;
+const router: Router = useRouter();
 const errors = ref();
-const formProcessing = ref();
+const formProcessing = ref<boolean>();
 const userCredentials = ref({
   email: '',
   first_name: '',
