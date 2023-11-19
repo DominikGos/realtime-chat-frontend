@@ -13,6 +13,8 @@ const users = ref<User[]>([]);
 const loading = ref(false);
 let offset: number = 0;
 const limit: number = 15;
+const loadingUsersDelay: number = 1000;
+const userDelayOver = ref<boolean>(true);
 
 watch(
   () => store.state.broadcastedData.updatedUser,
@@ -42,17 +44,19 @@ async function loadUsers(start: number): Promise<void> {
 }
 
 function loadAfterScroll(e: any): void {
-  setTimeout(async () => {
-    if (loading.value) {
-      return;
-    }
+  if (userDelayOver.value) {
+    userDelayOver.value = false;
 
-    const panelTemplate = e.target as HTMLDivElement;
+    setTimeout(async () => {
+      const panelTemplate = e.target as HTMLDivElement;
+  
+      if (panelTemplate.scrollTop + panelTemplate.clientHeight === panelTemplate.scrollHeight) {
+        await loadUsers(offset);
+      }
 
-    if (panelTemplate.scrollTop + panelTemplate.clientHeight === panelTemplate.scrollHeight) {
-      await loadUsers(offset);
-    }
-  }, 1000);
+      userDelayOver.value = true;
+    }, loadingUsersDelay);
+  }
 }
 
 const userList = computed<User[]>(() => {
