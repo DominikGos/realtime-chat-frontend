@@ -103,7 +103,7 @@ async function loadMessages(start: number) {
 
   messagesLoading.value = false;
 
-  if (messageService.data.messages.length > 0) {
+  if (messageService.data && messageService.data.messages.length > 0) {
     messages.value = [...messages.value, ...messageService.data.messages];
     messagesOffset += messageService.data.messages.length;
   }

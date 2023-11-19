@@ -1,3 +1,4 @@
+import { store } from '@/store';
 import axios, { AxiosError, type AxiosResponse } from 'axios';
 
 export default class FormService {
@@ -6,7 +7,7 @@ export default class FormService {
     public errors?: any;
     public errorMessage?: string;
 
-    public async send(method: string, endpoint: string, data?: object, headers?: any): Promise<void> {
+    public async send(method: string, endpoint: string, data?: any, headers?: any): Promise<void> {
         this.processing = true;
 
         try {
@@ -27,9 +28,9 @@ export default class FormService {
                 this.setErrorMessage(e.response.data.message);
                 this.setErrors(e.response.data.errors)
             } else if (e.response?.data)
-                throw e.response.data
+                store.commit('setGlobalError', 'Something went wrong.');
             else
-                throw 'Something went wrong.';
+                store.commit('setGlobalError', 'Something went wrong.');
         }
     }
 
