@@ -20,6 +20,8 @@ const messages = ref<Message[]>([]);
 const messagesLoading = ref(false);
 let messagesOffset = 0;
 const messagesLimit = 15;
+const loadingMessagesDelay: number = 1000;
+const messagesDelayOver = ref<boolean>(true);
 
 watch(
   () => store.state.components.chat,
@@ -110,17 +112,21 @@ async function loadMessages(start: number) {
 }
 
 function loadAfterScroll(e: any): void {
-  setTimeout(async () => {
-    if (messagesLoading.value) {
-      return;
-    }
+  if (messagesDelayOver.value) {
+    messagesDelayOver.value = false;
+    
+    setTimeout(async () => {
+      const chatBody = e.target as HTMLDivElement;
+      
+      if (Math.abs(chatBody.scrollTop) + chatBody.clientHeight >= chatBody.scrollHeight - 10) {
+        console.log('loading. ..');
+        await loadMessages(messagesOffset);
+      }
 
-    const chatBody = e.target as HTMLDivElement;
+      messagesDelayOver.value = true;
+    }, loadingMessagesDelay);
+  }
 
-    if (Math.abs(chatBody.scrollTop) + chatBody.clientHeight >= chatBody.scrollHeight - 10) {
-      await loadMessages(messagesOffset);
-    }
-  }, 1000);
 }
 
 function showProfile(user?: User): void {
