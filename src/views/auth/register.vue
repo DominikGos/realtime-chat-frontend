@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import type User from '../../interfaces/User';
 import AuthService from '@/services/AuthService';
 import { useRouter, type Router } from 'vue-router';
+import { store } from '@/store';
 
 const auth: AuthService = new AuthService;
 const router: Router = useRouter();
@@ -19,7 +20,7 @@ const userCredentials = ref({
   password: '',
 })
 
-async function submit() {
+async function submit(): Promise<void> {
   formProcessing.value = true;
 
   await auth.register(userCredentials.value as User)
@@ -28,8 +29,13 @@ async function submit() {
   formProcessing.value = auth.processing;
 
   if (errors.value === undefined) {
+    setFlashMessage();
     router.push({ name: 'login' });
   }
+}
+
+function setFlashMessage(): void {
+  store.commit('setFlashMessage', 'Now you can log in.');
 }
 </script>
 

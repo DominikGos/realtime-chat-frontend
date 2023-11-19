@@ -13,6 +13,8 @@ const components = {
         profile: null,
 
         file: null,
+
+        flashMessage: null,
     },
 
     mutations: {
@@ -30,7 +32,11 @@ const components = {
 
         setFile(state: any, modalFile?: ModalFile): void {
             state.file = modalFile;
-        }
+        },
+
+        setFlashMessage(state: any, flashMessage?: string): void {
+            state.flashMessage = flashMessage;
+        },
     }
 }
 
