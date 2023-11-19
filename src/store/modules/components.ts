@@ -1,6 +1,7 @@
 import type Chat from "@/interfaces/User";
 import type User from "@/interfaces/User";
 import type ModalFile from "@/interfaces/ModalFile";
+import type FlashMessage from "@/interfaces/FlashMessage";
 
 const components = {
     state: {
@@ -34,7 +35,7 @@ const components = {
             state.file = modalFile;
         },
 
-        setFlashMessage(state: any, flashMessage?: string): void {
+        setFlashMessage(state: any, flashMessage?: FlashMessage): void {
             state.flashMessage = flashMessage;
         },
     }

@@ -1,15 +1,16 @@
 <script lang="ts" setup>
+import type FlashMessage from '@/interfaces/FlashMessage';
 import { store } from '@/store';
 import { computed, ref, watch } from 'vue';
 
 
 const showMessage = ref<boolean>(false);
-const message = ref<string>();
+const message = ref<FlashMessage>();
 const messageDuration: number = 6000;
 
 watch(
   () => store.state.components.flashMessage,
-  (flashMessage: string) => {
+  (flashMessage?: FlashMessage) => {
     if( ! flashMessage) {
       return;
     }
@@ -23,13 +24,28 @@ watch(
   }
 )
 
-const classes = computed<string>(() => {
+const wrapperClasses = computed<string>(() => {
   let classes: string = 'fixed top-8 left-0 bg-white shadow-xl p-3 z-50 rounded-md transition-all duration-500 ';
 
   if(showMessage.value === true) {
     classes += 'opacity-1 left-8';
   } else {
     classes += 'opacity-0 left-0';
+  }
+
+  return classes;
+});
+
+const bodyClasses = computed<string>(() => {
+  let classes: string = 'border-l-4 p-3 flex items-center justify-center gap-3 ';
+
+  switch (message.value?.status) {
+    case 'success':
+      classes += 'border-l-green-700'
+      break;
+    case 'fail':
+      classes += 'border-l-red-700 '
+      break;
   }
 
   return classes;
@@ -42,9 +58,9 @@ function hideFlashMessage(): void {
 </script>
 
 <template>
-  <div :class="classes">
-    <div class="border-l-4 p-3 border-l-green-700 flex items-center justify-center gap-3  ">
-      <p>{{ message }}</p>
+  <div :class="wrapperClasses">
+    <div :class="bodyClasses">
+      <p>{{ message?.content }}</p>
       <button @click="hideFlashMessage">
         <i class="fa-solid fa-xmark text-gray-600"></i>
       </button>

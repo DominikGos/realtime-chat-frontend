@@ -8,6 +8,7 @@ import { useRouter, type Router } from 'vue-router';
 import { store } from '@/store';
 import Avatar from './Avatar.vue';
 import type User from '@/interfaces/User';
+import { setFlashMessage } from '@/helpers/setFlashMessage';
 
 const authService: AuthService = new AuthService;
 const authUser = ref<User>(store.state.auth.user)
@@ -42,14 +43,10 @@ async function logout(): Promise<void> {
 
   if( ! authService.errors) {
     logoutSpinner.value = false;
-    setLogoutFlashMessage();
+    setFlashMessage({content: 'You have logged out.', status: 'success'});
     authService.removeUserFromTheBrowser();  
     router.push({name: 'login'});
   }
-}
-
-function setLogoutFlashMessage(): void {
-  store.commit('setFlashMessage', 'You have logged out.');
 }
 
 function showProfile(): void {

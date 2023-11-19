@@ -8,6 +8,7 @@ import type User from '@/interfaces/User';
 import AuthService from '@/services/AuthService';
 import { useRouter, type Router } from 'vue-router';
 import { store } from '@/store';
+import { setFlashMessage } from '@/helpers/setFlashMessage';
 
 const auth: AuthService = new AuthService;
 const errors = ref();
@@ -29,14 +30,11 @@ async function submit(): Promise<void> {
   if (errors.value === undefined) {
     const user: User = { ...auth.data?.user, ...{ token: auth.data?.token } };
     auth.saveUserInTheBrowser(user);
-    setFlashMessage();
+    setFlashMessage({content: 'You have logged in.', status: 'success'});
     router.push({ name: 'home' });
   }
 }
 
-function setFlashMessage(): void {
-  store.commit('setFlashMessage', 'You have logged in.');
-}
 </script>
 
 <template>
