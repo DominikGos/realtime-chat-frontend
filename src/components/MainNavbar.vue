@@ -40,9 +40,16 @@ async function logout(): Promise<void> {
 
   await authService.logout();
 
-  logoutSpinner.value = false;
-  authService.removeUserFromTheBrowser();  
-  router.push({name: 'login'});
+  if( ! authService.errors) {
+    logoutSpinner.value = false;
+    setLogoutFlashMessage();
+    authService.removeUserFromTheBrowser();  
+    router.push({name: 'login'});
+  }
+}
+
+function setLogoutFlashMessage(): void {
+  store.commit('setFlashMessage', 'You have logged out.');
 }
 
 function showProfile(): void {

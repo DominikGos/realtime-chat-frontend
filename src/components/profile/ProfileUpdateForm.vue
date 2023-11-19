@@ -7,6 +7,7 @@ import CustomInput from '../form/CustomInput.vue';
 import InputError from '../form/InputError.vue';
 import InputLabel from '../form/InputLabel.vue';
 import CustomButton from '../buttons/CustomButton.vue';
+import { store } from '@/store';
 
 const props = defineProps<{
   user: UserInterface
@@ -31,6 +32,7 @@ async function updateProfile(): Promise<void> {
 
   if( ! userService.errors) {
     userInitialState = Object.assign({}, userToUpdate.value);
+    setSuccessfulFlashMessage();
   }
   userUpdateLoading.value = false;
 }
@@ -65,6 +67,10 @@ async function resetForm(): Promise<void> {
   }
 
   userToUpdate.value = Object.assign({}, userInitialState);
+}
+
+function setSuccessfulFlashMessage(): void {
+  store.commit('setFlashMessage', 'Profile updated successfully.');
 }
 
 </script>
