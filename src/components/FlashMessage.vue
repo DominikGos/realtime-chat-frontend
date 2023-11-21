@@ -3,10 +3,11 @@ import type FlashMessage from '@/interfaces/FlashMessage';
 import { store } from '@/store';
 import { computed, ref, watch } from 'vue';
 
-
 const showMessage = ref<boolean>(false);
 const message = ref<FlashMessage>();
 const messageDuration: number = 6000;
+let timeOutId: number;
+let delayOver: boolean = true;
 
 watch(
   () => store.state.components.flashMessage,
@@ -15,11 +16,18 @@ watch(
       return;
     }
 
+    delayOver = false;
     message.value = flashMessage;
     showMessage.value = true;
 
-    setTimeout(() => {
+    if( ! delayOver && timeOutId) {
+      clearTimeout(timeOutId);
+    }
+
+    timeOutId = setTimeout(() => {
       hideFlashMessage();
+
+      delayOver = true;
     }, messageDuration);
   }
 )
@@ -28,9 +36,9 @@ const wrapperClasses = computed<string>(() => {
   let classes: string = 'fixed top-8 left-0 bg-white shadow-xl p-3 z-50 rounded-md transition-all duration-500 ';
 
   if(showMessage.value === true) {
-    classes += 'opacity-1 left-8';
+    classes += 'visible opacity-1 left-8';
   } else {
-    classes += 'opacity-0 left-0';
+    classes += 'invisible opacity-0 left-0';
   }
 
   return classes;
