@@ -11,6 +11,6 @@
 ![Zrzut ekranu 2023-11-21 180340](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/b3925615-7f35-4e57-a5d1-d173d2702c2d)
 
 # Screen recordings
-[app review.webm](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/fc7c2a32-39d0-456c-b2a7-e39dbecb7e05)
-[realtime messages.webm](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/01c2d3ee-6c6f-4afb-9336-255592702ae8)
+https://github-production-user-asset-6210df.s3.amazonaws.com/85825266/284677122-fc7c2a32-39d0-456c-b2a7-e39dbecb7e05.webm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231121%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231121T182024Z&X-Amz-Expires=300&X-Amz-Signature=cb55bb2c0bd24e5af60a8331e5e5518ad258f09c5ad3a401f9b761774b1321c5&X-Amz-SignedHeaders=host&actor_id=85825266&key_id=0&repo_id=705398618
 
+https://github-production-user-asset-6210df.s3.amazonaws.com/85825266/284677389-01c2d3ee-6c6f-4afb-9336-255592702ae8.webm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231121%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231121T182024Z&X-Amz-Expires=300&X-Amz-Signature=fc4b2168c6b1e327eb2d856ebb20887e0867a70abec043448139d5f8c925ef2b&X-Amz-SignedHeaders=host&actor_id=85825266&key_id=0&repo_id=705398618
