@@ -6,8 +6,9 @@ messages with other people. Share photos or videos. Manage your own profile.
 # Technologies: 
 
  * Vue 3
+ * Typescript 
  * Tailwind 3
- * Pusher 
+ * Sass
 
 # Screenshots
 ## Large devices
