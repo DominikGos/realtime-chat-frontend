@@ -1,40 +1,32 @@
-# realtime-chat
+# Description 
 
-This template should help get you started developing with Vue 3 in Vite.
+This is the app where you can send
+messages with other people. Share photos or videos. Manage your own profile.
 
-## Recommended IDE Setup
+# Technologies: 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+ * Vue 3
+ * Typescript 
+ * Tailwind 3
+ * Sass
 
-## Type Support for `.vue` Imports in TS
+# Screenshots
+## Large devices
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+![Zrzut ekranu 2023-11-21 182109](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/910ad539-493c-4a40-af01-d328850c058a)
+![Zrzut ekranu 2023-11-21 181755](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/dacef21f-ecaa-4821-b8fc-400e54390ea9)
+![Zrzut ekranu 2023-11-21 180144](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/21f9fbc1-f154-42f3-9945-d816bfbdc053)
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## Small devices 
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+![Zrzut ekranu 2023-11-21 181954](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/168a648d-4b3a-4df1-8a0a-985101e2f9d7)
+![Zrzut ekranu 2023-11-21 181857](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/8661f7e8-4d6d-49ef-9740-481876993b6e)
+![Zrzut ekranu 2023-11-21 181831](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/40cb8792-8d13-4546-8510-6fd82ddfe049)
+![Zrzut ekranu 2023-11-21 180340](https://github.com/DominikGos/realtime-chat-frontend/assets/85825266/dc27d96e-2de8-499b-9784-574e31815e50)
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Screen recordings
 
-## Project Setup
+https://github-production-user-asset-6210df.s3.amazonaws.com/85825266/284684834-84061285-e571-48f3-80e7-54fd815585d7.webm
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
+https://github-production-user-asset-6210df.s3.amazonaws.com/85825266/284684717-6f180f1e-b3f3-4da4-996b-a2db58e81e13.webm
