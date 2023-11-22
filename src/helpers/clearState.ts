@@ -1,8 +1,8 @@
 import { store } from '@/store';
-import { leaveChats } from '@/pusher/leaveChannels/chat';
+import { leaveChannels } from '@/pusher/leaveChannels';
 
 export function clearState(): void {
-    leaveChats();
+    leaveChannels(store.state.auth.user);
     store.commit('setUser', undefined);
     store.commit('setUserChatsIds', undefined);
     store.commit('setChat', undefined);
