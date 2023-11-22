@@ -3,7 +3,7 @@ import FormService from './FormService';
 import AxiosService from './AxiosService';
 import { store } from '@/store';
 import UserService from './UserService';
-import { clearState } from '@/helpers/state';
+import { clearState } from '@/helpers/clearState';
 
 export default class AuthService extends FormService {
     private axiosService?: AxiosService;
