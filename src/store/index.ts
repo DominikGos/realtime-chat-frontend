@@ -5,7 +5,7 @@ import errors from './modules/errors';
 import fileExtensions from './modules/fileExtensions';
 import broadcastedData from './modules/broadcastedData';
 
-const store = createStore({
+const store: any = createStore({
     modules: {
         auth,
         components,
