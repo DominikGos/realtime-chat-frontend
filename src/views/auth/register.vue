@@ -4,26 +4,27 @@ import CustomInput from '../../components/form/CustomInput.vue';
 import InputError from '@/components/form/InputError.vue';
 import CustomButton from '../../components/buttons/CustomButton.vue';
 import { ref } from 'vue';
-import type User from '../../interfaces/User';
 import AuthService from '@/services/AuthService';
 import { useRouter, type Router } from 'vue-router';
 import { setFlashMessage } from '@/helpers/setFlashMessage';
+import type UserCredentialsRegister from '@/interfaces/UserCredentialsRegister';
 
 const auth: AuthService = new AuthService;
 const router: Router = useRouter();
 const errors = ref();
 const formProcessing = ref<boolean>();
-const userCredentials = ref({
+const userCredentials = ref<UserCredentialsRegister>({
   email: '',
   first_name: '',
   last_name: '',
   password: '',
-})
+  password_confirmation: ''
+});
 
 async function submit(): Promise<void> {
   formProcessing.value = true;
 
-  await auth.register(userCredentials.value as User)
+  await auth.register(userCredentials.value)
 
   errors.value = auth.errors;
   formProcessing.value = auth.processing;
@@ -64,6 +65,11 @@ async function submit(): Promise<void> {
         <InputLabel>Password</InputLabel>
         <CustomInput type="password" v-model="userCredentials.password" :invalid="errors?.password" required />
         <InputError v-if="errors?.password" :errors="errors.password" />
+      </div>
+      <div class="flex flex-col gap-3">
+        <InputLabel>Confirm Password</InputLabel>
+        <CustomInput type="password" v-model="userCredentials.password_confirmation" :invalid="errors?.password_confirmation" required />
+        <InputError v-if="errors?.password_confirmation" :errors="errors.password_confirmation" />
       </div>
       <div>
         <CustomButton :color="'blue'" type="submit" :loading="formProcessing">Register</CustomButton>
