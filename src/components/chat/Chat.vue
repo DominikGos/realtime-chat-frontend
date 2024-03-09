@@ -119,7 +119,6 @@ function loadAfterScroll(e: any): void {
       const chatBody = e.target as HTMLDivElement;
       
       if (Math.abs(chatBody.scrollTop) + chatBody.clientHeight >= chatBody.scrollHeight - 10) {
-        console.log('loading. ..');
         await loadMessages(messagesOffset);
       }
 
