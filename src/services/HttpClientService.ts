@@ -1,7 +1,7 @@
 import { store } from '@/store';
 import axios, { AxiosError, type AxiosResponse } from 'axios';
 
-export default class FormService {
+export default abstract class HttpClientService {
     public processing: boolean = false;
     public data?: any;
     public errors?: any;

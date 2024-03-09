@@ -1,6 +1,6 @@
-import FormService from "./FormService";
+import HttpClientService from "./HttpClientService";
 
-export default class ChatService extends FormService {
+export default class ChatService extends HttpClientService {
     public async createChat(friendId: number): Promise<void> {
         await this.send('post', '/chats', {friend_id: friendId});
     }

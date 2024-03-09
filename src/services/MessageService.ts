@@ -1,9 +1,9 @@
-import FormService from "./FormService";
+import HttpClientService from "./HttpClientService";
 import type MessageInterface from '@/interfaces/Message';
 import { store } from "@/store";
 import { AxiosError } from "axios";
 
-export default class Message extends FormService {
+export default class Message extends HttpClientService {
     public async getMessages(chatId: number, start: number, limit?: number): Promise<void> {
         const endpoint: string = limit
             ? `/chats/${chatId}/messages?start=${start}&limit=${limit}`

@@ -1,7 +1,7 @@
 import type User from "@/interfaces/User";
-import FormService from "./FormService";
+import HttpClientService from "./HttpClientService";
 
-export default class UserService extends FormService {
+export default class UserService extends HttpClientService {
     public async getUsers(start: number, limit?: number): Promise<void> {
         const endpoint = limit
             ? `/users?start=${start}&limit=${limit}`

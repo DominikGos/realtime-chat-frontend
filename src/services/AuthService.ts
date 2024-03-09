@@ -1,11 +1,11 @@
 import type User from '@/interfaces/User';
-import FormService from './FormService';
+import HttpClientService from './HttpClientService';
 import AxiosService from './AxiosService';
 import { store } from '@/store';
 import UserService from './UserService';
 import { clearState } from '@/helpers/clearState';
 
-export default class AuthService extends FormService {
+export default class AuthService extends HttpClientService {
     private axiosService?: AxiosService;
     private userService?: UserService;
 
