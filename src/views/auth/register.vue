@@ -7,7 +7,6 @@ import { ref } from 'vue';
 import type User from '../../interfaces/User';
 import AuthService from '@/services/AuthService';
 import { useRouter, type Router } from 'vue-router';
-import { store } from '@/store';
 import { setFlashMessage } from '@/helpers/setFlashMessage';
 
 const auth: AuthService = new AuthService;
@@ -29,7 +28,7 @@ async function submit(): Promise<void> {
   errors.value = auth.errors;
   formProcessing.value = auth.processing;
 
-  if (errors.value === undefined) {
+  if ( ! auth.hasAnyErrors) {
     setFlashMessage({content: 'Now you can log in.', status: 'success'});
     router.push({ name: 'login' });
   }

@@ -7,7 +7,6 @@ import CustomInput from '../form/CustomInput.vue';
 import InputError from '../form/InputError.vue';
 import InputLabel from '../form/InputLabel.vue';
 import CustomButton from '../buttons/CustomButton.vue';
-import { store } from '@/store';
 import { setFlashMessage } from '@/helpers/setFlashMessage';
 
 const props = defineProps<{
@@ -31,7 +30,7 @@ async function updateProfile(): Promise<void> {
 
   errors.value = userService.errors;
 
-  if( ! userService.errors) {
+  if ( ! userService.hasAnyErrors) {
     userInitialState = Object.assign({}, userToUpdate.value);
     setFlashMessage({content: 'Profile updated successfully.', status: 'success'});
   }
@@ -44,7 +43,7 @@ async function sendAvatar(e: any): Promise<void> {
 
   await userService.createFile(input.files!);
 
-  if (!userService.errors) {
+  if ( ! userService.hasAnyErrors) {
     userToUpdate.value.avatar_link = userService.data.files_links[0];
   }
 
@@ -54,7 +53,7 @@ async function sendAvatar(e: any): Promise<void> {
 async function removeAvatar(avatarLink: string): Promise<void> {
   await userService.removeFile(avatarLink);
 
-  if (!userService.errors) {
+  if ( ! userService.hasAnyErrors) {
     removeAvatarLink();
   }
 }

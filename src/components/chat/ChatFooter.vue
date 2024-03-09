@@ -24,7 +24,7 @@ async function sendMessage() {
 
   messageProccesing.value = false;
 
-  if (!messageService.errors) {
+  if ( ! messageService.hasAnyErrors) {
     message.value.text = undefined;
     message.value.files_links = [];
     message.value.created_at = undefined;
@@ -47,7 +47,7 @@ async function addFile(e: any): Promise<void> {
 
   await messageService.createFile(input.files!);
 
-  if (!messageService.errors) {
+  if ( ! messageService.hasAnyErrors) {
     message.value.files_links = [...message.value.files_links, ...messageService.data.files_links];
   }
 
@@ -58,7 +58,7 @@ async function addFile(e: any): Promise<void> {
 async function removeFile(fileLink: string): Promise<void> {
   await messageService.removeFile(fileLink);
 
-  if (!messageService.errors) {
+  if ( ! messageService.hasAnyErrors) {
     const index: number = message.value.files_links.indexOf(fileLink);
     message.value.files_links.splice(index, 1)
   }
