@@ -17,9 +17,11 @@ const showProfile = ref(false);
 
 watch(
   () => store.state.components.profile,
-  (profileResource: User) => {
-    if (!profileResource)
+  (profileResource?: User) => {
+    if (!profileResource) {
+      showProfile.value = false;
       return;
+    }
 
     showProfile.value = true;
     user.value = profileResource;
