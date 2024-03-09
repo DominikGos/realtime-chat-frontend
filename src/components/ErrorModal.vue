@@ -13,7 +13,6 @@ watch(
   (e: string) => {
     if( ! e) 
       return;
-    console.log(e);
     
     errorMessage.value = e;
     showError.value = true;
