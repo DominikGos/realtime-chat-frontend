@@ -1,10 +1,11 @@
 import { store } from '@/store';
 import axios, { AxiosError, type AxiosResponse } from 'axios';
 
-export default class FormService {
+export default abstract class HttpClientService {
     public processing: boolean = false;
     public data?: any;
     public errors?: any;
+    public hasAnyErrors: boolean = false;
     public errorMessage?: string;
 
     public async send(method: string, endpoint: string, data?: any, headers?: any): Promise<void> {
@@ -17,6 +18,7 @@ export default class FormService {
                 data: data,
                 headers: headers,
             });
+            this.hasAnyErrors = false;
             this.setErrors(undefined);
             this.setErrorMessage(undefined);
             this.data = response?.data;
@@ -27,10 +29,21 @@ export default class FormService {
             if (e.response?.data.errors) {
                 this.setErrorMessage(e.response.data.message);
                 this.setErrors(e.response.data.errors)
-            } else if (e.response?.data)
+                this.hasAnyErrors = true;
+
+                return;
+            } else if (e.response?.data) {
                 store.commit('setGlobalError', 'Something went wrong.');
-            else
+                this.hasAnyErrors = true;
+                
+                return;
+            }
+            else {
                 store.commit('setGlobalError', 'Something went wrong.');
+                this.hasAnyErrors = true;
+
+                return;
+            }
         }
     }
 
