@@ -4,6 +4,7 @@ import AxiosService from './AxiosService';
 import { store } from '@/store';
 import UserService from './UserService';
 import { clearState } from '@/helpers/clearState';
+import type UserCredentialsRegister from '@/interfaces/UserCredentialsRegister';
 
 export default class AuthService extends HttpClientService {
     private axiosService?: AxiosService;
@@ -20,8 +21,8 @@ export default class AuthService extends HttpClientService {
         await this.send('post', '/login', user)
     }
 
-    public async register(user: User): Promise<void> {
-        await this.send('post', '/register', user)
+    public async register(userCredentials: UserCredentialsRegister): Promise<void> {
+        await this.send('post', '/register', userCredentials)
     }
 
     public async logout(): Promise<void> {
