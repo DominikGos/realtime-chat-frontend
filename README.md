@@ -3,6 +3,10 @@
 This is the app where you can send
 messages with other people. Share photos or videos. Manage your own profile.
 
+# Link to the website
+
+https://main.dy35wzlisfwzj.amplifyapp.com/
+
 # Technologies: 
 
  * Vue 3
