@@ -7,7 +7,7 @@ import ProfileVue from '@/components/profile/Profile.vue';
 </script>
 
 <template>
-  <div class="flex flex-col-reverse h-screen lg:flex-row">
+  <div class="absolute top-0 bottom-0 right-0 left-0 flex flex-col-reverse h-full lg:flex-row overflow-hidden">
     <MainNavbar />
     <Panel />
     <Transition name="fade" mode="out-in">
