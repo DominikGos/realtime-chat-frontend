@@ -134,7 +134,7 @@ function showProfile(user?: User): void {
 </script>
 
 <template>
-  <div class="w-screen h-screen fixed right-0 top-0 bg-white  flex flex-col lg:static lg:border-l-2 lg:border-gray-100">
+  <div class="w-full h-full fixed right-0 top-0 bg-white  flex flex-col lg:static lg:border-l-2 lg:border-gray-100">
     <ChatError />
     <FileModal />
     <ChatHeader>

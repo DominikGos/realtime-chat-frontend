@@ -16,7 +16,7 @@ const backgroundClasses = computed(() => {
     props.active
       ? 'bg-black/50 visible opacity-100'
       : 'bg-black/0 invisible opacity-0'
-    , 'mx-auto p-3 w-screen h-screen fixed top-0 right-0 left left-0 transition-all duration-500 z-50'
+    , 'mx-auto p-3 w-full h-full fixed top-0 bottom-0 right-0 left-0 transition-all duration-500 z-50'
   ]
 })
 
