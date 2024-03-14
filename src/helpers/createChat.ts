@@ -9,7 +9,8 @@ export async function createChat(friendId: number): Promise<void> {
   
     const userChatsIds: number[] = store.state.auth.chatsIds;
     const createdChat: Chat = chatService.data.chat;
-  
+
     store.commit('setChat', chatService.data.chat);
     store.commit('setUserChatsIds', [...userChatsIds, ...[createdChat.id]])
+    store.commit('setPanel', 'Chats');
   }

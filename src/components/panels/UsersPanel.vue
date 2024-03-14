@@ -22,13 +22,17 @@ watch(
     if (!updatedUserResource)
       return;
 
-    users.value.forEach((user: User, index: number) => {
-      if (user.id === updatedUserResource.id) {
-        users.value[index] = updatedUserResource;
-      }
-    })
+      setUpdatedUser(updatedUserResource);
   }
 )
+
+function setUpdatedUser(updatedUserResource: User): void {
+  users.value.forEach((user: User, index: number) => {
+    if (user.id === updatedUserResource.id) {
+      users.value[index] = updatedUserResource;
+    }
+  })
+}
 
 async function loadUsers(start: number): Promise<void> {
   loading.value = true;
@@ -49,7 +53,7 @@ function loadAfterScroll(e: any): void {
 
     setTimeout(async () => {
       const panelTemplate = e.target as HTMLDivElement;
-  
+
       if (panelTemplate.scrollTop + panelTemplate.clientHeight === panelTemplate.scrollHeight) {
         await loadUsers(offset);
       }
