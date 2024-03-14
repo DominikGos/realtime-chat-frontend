@@ -20,32 +20,7 @@ watch(
     if (!newMessageResource)
       return;
 
-    let chatWithNewMessageIndex: number | undefined;
-
-    chats.value.forEach((chat: Chat, index: number) => {
-      if (chat.id === newMessageResource.chat!.id) {
-        chatWithNewMessageIndex = index;
-        const chatWithNewMessage: Chat = newMessageResource.chat!
-        chatWithNewMessage.last_message = newMessageResource
-
-        if (store.state.auth.user?.id != newMessageResource.user?.id) {
-          const chatUnreadMessages: number = chat.unread_messages ?? 0;
-          chatWithNewMessage.unread_messages = chatUnreadMessages;
-          chatWithNewMessage.unread_messages++;
-        }
-
-        chats.value.splice(index, 1);
-        chats.value.unshift(chatWithNewMessage)
-      }
-    })
-
-    if (typeof chatWithNewMessageIndex !== 'number') {
-      const chatWithNewMessage: Chat = newMessageResource.chat!
-      chatWithNewMessage.last_message = newMessageResource
-      chatWithNewMessage.unread_messages = 0;
-      chatWithNewMessage.unread_messages++;
-      chats.value.unshift(chatWithNewMessage)
-    }
+    setChatWithNewMessage(newMessageResource);
   }
 )
 
@@ -55,19 +30,7 @@ watch(
     if (!removedMessageResource)
       return;
 
-    chats.value.forEach((chat: Chat, index: number) => {
-      if (chat.id === removedMessageResource.chat!.id) {
-        const chatWithRemovedMessage: Chat = chat;
-        chatWithRemovedMessage.last_message = {
-          user: removedMessageResource.user,
-          text: 'Removed message.',
-          files_links: [],
-          created_at: removedMessageResource.created_at,
-        };
-
-        chats.value[index] = chatWithRemovedMessage;
-      }
-    })
+    removeChat(removedMessageResource);
   }
 )
 
@@ -77,15 +40,64 @@ watch(
     if (!updatedUserResource)
       return;
 
-    chats.value.forEach((chat: Chat, index: number) => {
-      chat.users.forEach((user: User, userIndex: number) => {
-        if (user.id === updatedUserResource.id) {
-          chats.value[index].users[userIndex] = updatedUserResource;
-        }
-      })
-    })
+    setUpdatedUser(updatedUserResource);
   }
 )
+
+function setChatWithNewMessage(newMessageResource: Message): void {
+  let chatWithNewMessageIndex: number | undefined;
+
+  chats.value.forEach((chat: Chat, index: number) => {
+    if (chat.id === newMessageResource.chat!.id) {
+      chatWithNewMessageIndex = index;
+      const chatWithNewMessage: Chat = newMessageResource.chat!
+      chatWithNewMessage.last_message = newMessageResource
+
+      if (store.state.auth.user?.id != newMessageResource.user?.id) {
+        const chatUnreadMessages: number = chat.unread_messages ?? 0;
+        chatWithNewMessage.unread_messages = chatUnreadMessages;
+        chatWithNewMessage.unread_messages++;
+      }
+
+      chats.value.splice(index, 1);
+      chats.value.unshift(chatWithNewMessage)
+    }
+  })
+
+  if (typeof chatWithNewMessageIndex === 'undefined') {
+    const chatWithNewMessage: Chat = newMessageResource.chat!
+    chatWithNewMessage.last_message = newMessageResource
+    chatWithNewMessage.unread_messages = 0;
+    chatWithNewMessage.unread_messages++;
+    chats.value.unshift(chatWithNewMessage)
+  }
+}
+
+function removeChat(removedMessageResource: Message): void {
+  chats.value.forEach((chat: Chat, index: number) => {
+    if (chat.id === removedMessageResource.chat!.id) {
+      const chatWithRemovedMessage: Chat = chat;
+      chatWithRemovedMessage.last_message = {
+        user: removedMessageResource.user,
+        text: 'Removed message.',
+        files_links: [],
+        created_at: removedMessageResource.created_at,
+      };
+
+      chats.value[index] = chatWithRemovedMessage;
+    }
+  })
+}
+
+function setUpdatedUser(updatedUserResource: User): void {
+  chats.value.forEach((chat: Chat, index: number) => {
+    chat.users.forEach((user: User, userIndex: number) => {
+      if (user.id === updatedUserResource.id) {
+        chats.value[index].users[userIndex] = updatedUserResource;
+      }
+    })
+  })
+}
 
 async function loadChats(start: number): Promise<void> {
   loading.value = true;
@@ -127,7 +139,7 @@ function lastMessage(message: Message): string {
 }
 
 async function setChat(chat: Chat): Promise<void> {
-  if(chatHasUnreadMessages(chat)) {
+  if (chatHasUnreadMessages(chat)) {
     readMessages(chat);
   }
 
@@ -165,7 +177,8 @@ await loadChats(offset);
             {{ getFriend(chat.users)?.first_name }}
             {{ getFriend(chat.users)?.last_name }}
           </p>
-          <p :class="[chatHasUnreadMessages(chat) ? 'text-cyan-400' : 'text-gray-400', ' truncate w-[calc(100%-60px)]']">
+          <p
+            :class="[chatHasUnreadMessages(chat) ? 'text-cyan-400' : 'text-gray-400', ' truncate w-[calc(100%-60px)]']">
             {{ lastMessage(chat.last_message!) }}
           </p>
         </template>
