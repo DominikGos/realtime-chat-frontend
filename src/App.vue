@@ -8,6 +8,7 @@ import { store } from '@/store';
 import { listenChats, listenNewChats } from '@/pusher/listeners/chat';
 import { listenUsers } from '@/pusher/listeners/user';
 import type User from '@/interfaces/User';
+import { leaveChannels } from './pusher/leaveChannels';
 
 window.Pusher = Pusher;
 
@@ -31,6 +32,8 @@ watch(
       },
     });
 
+
+    leaveChannels(user); //Firstly leave previous events
     listenChats();
     listenUsers();
     listenNewChats();
