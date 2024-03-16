@@ -7,6 +7,7 @@ import MessageService from '@/services/MessageService';
 import type Chat from '@/interfaces/Chat';
 import LoadingSpinner from '../LoadingSpinner.vue';
 import MessageToReplyFooterWrapper from './MessageToReplyFooterWrapper.vue';
+import removeMessageToAnswer from '@/helpers/removeMessageToAnswer';
 
 const messageService: MessageService = new MessageService;
 const chat: Chat = store.state.components.chat;
@@ -21,6 +22,11 @@ const messageSending = ref<boolean>(false);
 async function sendMessage(): Promise<void> {
   messageSending.value = true;
 
+  if(store.state.components.messageToAnswer) {
+    message.value.answer_to_message = store.state.components.messageToAnswer
+    message.value.answer_to_message_id = store.state.components.messageToAnswer.id
+  }
+
   await messageService.createMessage(chat.id, message.value)
 
   messageSending.value = false;
@@ -31,6 +37,7 @@ async function sendMessage(): Promise<void> {
     message.value.created_at = undefined;
   }
 
+  removeMessageToAnswer();
   changeSendButtonVisibility();
 }
 
@@ -105,4 +112,4 @@ const textInputClasses = computed<string>(() => {
       </button>
     </Transition>
   </form>
-</template>./MessageToReplyFooterWrapper.vue
+</template>

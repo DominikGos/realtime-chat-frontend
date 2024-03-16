@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import removeMessageToAnswer from '@/helpers/removeMessageToAnswer';
 import type Message from '@/interfaces/Message';
 import { store } from '@/store';
 import { computed, ref, watch } from 'vue';
@@ -10,8 +11,10 @@ const replyTo = ref<Message>();
 watch(
   () => store.state.components.messageToAnswer,
   (messageToAnswer?: Message) => {
-    if (!messageToAnswer)
+    if (!messageToAnswer) {
+      show.value = false;
       return;
+    }
 
     replyTo.value = messageToAnswer;
     show.value = true;
@@ -39,7 +42,7 @@ const contentOfMessageToReply = computed<string>(() => {
 });
 
 function closeMessageReply(): void {
-  store.commit('setMessageToAnswer', null);
+  removeMessageToAnswer();
   show.value = false;
 }
 
@@ -47,7 +50,7 @@ function closeMessageReply(): void {
 
 <template>
   <div v-if="show" class="flex flex-col items-start pb-4 mb-2 relative w-full flex-1 overflow-hidden">
-    <button class="absolute right-4 top-0" @click="closeMessageReply">
+    <button type="button" class="absolute right-4 top-0" @click="closeMessageReply">
       <i class="fa-solid fa-xmark"></i>
     </button>
     <h3 class=" font-semibold"> {{ answerToWho }}</h3>
