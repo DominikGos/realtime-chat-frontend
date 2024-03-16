@@ -6,4 +6,5 @@ export function clearState(): void {
     store.commit('setUser', undefined);
     store.commit('setUserChatsIds', undefined);
     store.commit('setChat', undefined);
+    store.commit('setMessageToAnswer', null);
 }

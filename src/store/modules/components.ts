@@ -26,7 +26,9 @@ const components = {
         messageSettings: {
             showSettings: false,
             message: null
-        }
+        },
+
+        messageToAnswer: null,
     },
 
     mutations: {
@@ -53,6 +55,10 @@ const components = {
         setMessageSettings(state: any, messageSettings: MessageSettings): void {
             state.messageSettings.showSettings = messageSettings.showSettings;
             state.messageSettings.message = messageSettings.message;
+        },
+
+        setMessageToAnswer(state: any, message?: Message): void {
+            state.messageToAnswer = message;
         }
     }
 }

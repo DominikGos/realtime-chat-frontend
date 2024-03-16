@@ -22,6 +22,10 @@ const settingsWrapperClasses = computed<string>(() => {
   return (userIsAuthor ? '-left-12' : '-right-12 flex-row-reverse') + ' group-hover:flex hidden p-2 h-full absolute items-center justify-end gap-1 opacity-70 w-12';
 });
 
+function setMessageToAnswer(): void {
+  store.commit('setMessageToAnswer', props.message);
+}
+
 </script>
 
 <template>
@@ -40,7 +44,7 @@ const settingsWrapperClasses = computed<string>(() => {
           <button v-if="userIsAuthor" @click="openSettingsModal">
             <i class="fa-solid fa-ellipsis-vertical p-2"></i>
           </button>
-          <button>
+          <button @click="setMessageToAnswer" class="p-2">
             <i class="fa-solid fa-reply"></i>
           </button>
         </div>

@@ -32,7 +32,8 @@ watch(
 
     chat.value = chatResource
     friend.value = setFriend(chat.value!.users);
-
+    clearMessageReply();
+    
     await loadMessages(messagesOffset);
 
   }, { immediate: true }
@@ -90,6 +91,10 @@ onErrorCaptured((error) => {
 
   return false;
 })
+
+function clearMessageReply(): void {
+  store.commit('setMessageToAnswer', null);
+}
 
 function setFriend(users: User[]): User {
   const friends: User[] = users.filter((user) => {
