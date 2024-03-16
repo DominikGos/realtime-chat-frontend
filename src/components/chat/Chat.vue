@@ -12,6 +12,7 @@ import type Chat from '@/interfaces/Chat';
 import type User from '@/interfaces/User';
 import type Message from '@/interfaces/Message';
 import MessageService from '@/services/MessageService'
+import MessageSettingsModal from './MessageSettingsModal.vue';
 
 const chat = ref<Chat>();
 const friend = ref<User>();
@@ -135,6 +136,7 @@ function showProfile(user?: User): void {
 
 <template>
   <div class="w-full h-full fixed right-0 top-0 bg-white  flex flex-col lg:static lg:border-l-2 lg:border-gray-100">
+    <MessageSettingsModal />
     <ChatError />
     <FileModal />
     <ChatHeader>
