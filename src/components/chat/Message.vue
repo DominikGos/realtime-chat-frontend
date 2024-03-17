@@ -7,8 +7,6 @@ const props = defineProps<{
   userIsAuthor: Boolean,
 }>();
 
-console.log('??');
-
 const classes = computed(() => {
   let classes: string = 'p-3 rounded-md '
 

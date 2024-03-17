@@ -22,8 +22,7 @@ const messageSending = ref<boolean>(false);
 async function sendMessage(): Promise<void> {
   messageSending.value = true;
 
-  if(store.state.components.messageToAnswer) {
-    message.value.answer_to_message = store.state.components.messageToAnswer
+  if (store.state.components.messageToAnswer) {
     message.value.answer_to_message_id = store.state.components.messageToAnswer.id
   }
 
@@ -32,13 +31,19 @@ async function sendMessage(): Promise<void> {
   messageSending.value = false;
 
   if (!messageService.hasAnyErrors) {
-    message.value.text = undefined;
-    message.value.files_links = [];
-    message.value.created_at = undefined;
+    resetMessage();
+    removeMessageToAnswer();
   }
 
-  removeMessageToAnswer();
   changeSendButtonVisibility();
+}
+
+function resetMessage(): void {
+  message.value.text = undefined;
+  message.value.files_links = [];
+  message.value.created_at = undefined;
+  message.value.answer_to_message_id = undefined;
+  message.value.answer_to_message = undefined;
 }
 
 function changeSendButtonVisibility(): void {
