@@ -13,6 +13,7 @@ import type User from '@/interfaces/User';
 import type Message from '@/interfaces/Message';
 import MessageService from '@/services/MessageService'
 import MessageSettingsModal from './MessageSettingsModal.vue';
+import removeMessageToAnswer from '@/helpers/removeMessageToAnswer';
 
 const chat = ref<Chat>();
 const friend = ref<User>();
@@ -32,7 +33,8 @@ watch(
 
     chat.value = chatResource
     friend.value = setFriend(chat.value!.users);
-
+    removeMessageToAnswer();
+    
     await loadMessages(messagesOffset);
 
   }, { immediate: true }

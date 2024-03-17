@@ -1,7 +1,6 @@
 import HttpClientService from "./HttpClientService";
 import type MessageInterface from '@/interfaces/Message';
 import { store } from "@/store";
-import { AxiosError } from "axios";
 
 export default class Message extends HttpClientService {
     public async getMessages(chatId: number, start: number, limit?: number): Promise<void> {

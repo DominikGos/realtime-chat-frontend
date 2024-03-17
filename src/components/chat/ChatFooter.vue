@@ -6,6 +6,8 @@ import { store } from '@/store';
 import MessageService from '@/services/MessageService';
 import type Chat from '@/interfaces/Chat';
 import LoadingSpinner from '../LoadingSpinner.vue';
+import MessageToReplyFooterWrapper from './MessageToReplyFooterWrapper.vue';
+import removeMessageToAnswer from '@/helpers/removeMessageToAnswer';
 
 const messageService: MessageService = new MessageService;
 const chat: Chat = store.state.components.chat;
@@ -20,17 +22,28 @@ const messageSending = ref<boolean>(false);
 async function sendMessage(): Promise<void> {
   messageSending.value = true;
 
+  if (store.state.components.messageToAnswer) {
+    message.value.answer_to_message_id = store.state.components.messageToAnswer.id
+  }
+
   await messageService.createMessage(chat.id, message.value)
 
   messageSending.value = false;
 
-  if ( ! messageService.hasAnyErrors) {
-    message.value.text = undefined;
-    message.value.files_links = [];
-    message.value.created_at = undefined;
+  if (!messageService.hasAnyErrors) {
+    resetMessage();
+    removeMessageToAnswer();
   }
 
   changeSendButtonVisibility();
+}
+
+function resetMessage(): void {
+  message.value.text = undefined;
+  message.value.files_links = [];
+  message.value.created_at = undefined;
+  message.value.answer_to_message_id = undefined;
+  message.value.answer_to_message = undefined;
 }
 
 function changeSendButtonVisibility(): void {
@@ -47,7 +60,7 @@ async function addFile(e: Event): Promise<void> {
 
   await messageService.createFile(input.files!);
 
-  if ( ! messageService.hasAnyErrors) {
+  if (!messageService.hasAnyErrors) {
     message.value.files_links = [...message.value.files_links, ...messageService.data.files_links];
   }
 
@@ -58,7 +71,7 @@ async function addFile(e: Event): Promise<void> {
 async function removeFile(fileLink: string): Promise<void> {
   await messageService.removeFile(fileLink);
 
-  if ( ! messageService.hasAnyErrors) {
+  if (!messageService.hasAnyErrors) {
     const index: number = message.value.files_links.indexOf(fileLink);
     message.value.files_links.splice(index, 1)
   }
@@ -80,7 +93,7 @@ const textInputClasses = computed<string>(() => {
 </script>
 
 <template>
-  <form @submit.prevent="sendMessage" 
+  <form @submit.prevent="sendMessage"
     class="flex gap-3 ps-3 pe-3 items-center w-full border-t-2 border-gray-100 bg-white ">
     <div class="flex gap-2 items-center">
       <input @change="addFile" type="file" ref="file" id="file" class="hidden" multiple />
@@ -89,12 +102,13 @@ const textInputClasses = computed<string>(() => {
       </label>
     </div>
     <div class="flex flex-col-reverse w-full overflow-hidden p-3">
-      <input @input="changeSendButtonVisibility" v-model="message.text" :class="textInputClasses" type="text" :disabled="messageSending"
-        placeholder="Type your message ..." />
+      <input @input="changeSendButtonVisibility" v-model="message.text" :class="textInputClasses" type="text"
+        :disabled="messageSending" placeholder="Type your message ..." />
       <div v-if="message.files_links.length > 0"
         class="flex gap-2 peer-focus:bg-white peer-focus:border-t shadow-md peer-focus:shadow-none peer-focus:border-r peer-focus:border-l peer-focus:border-b-transparent border border-transparent  peer-focus:border-gray-300 transition duration-300 ease-in overflow-x-auto bg-gray-100 p-3 rounded-tl-2xl rounded-tr-2xl scrollbar-thin scrollbar-thumb-gray-300">
         <FormFile v-for="fileLink in message.files_links" @removeFile="removeFile" :fileLink="fileLink" />
       </div>
+      <MessageToReplyFooterWrapper />
     </div>
     <Transition name="fade">
       <button v-if="showSendButton">

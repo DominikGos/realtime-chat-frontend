@@ -6,6 +6,7 @@ import type MessageInterface from '@/interfaces/Message';
 import type User from '@/interfaces/User';
 import { store } from '@/store';
 import { computed, ref } from 'vue';
+import MessageRepliedTo from './MessageRepliedTo.vue';
 
 const props = defineProps<{
   message: MessageInterface,
@@ -15,12 +16,16 @@ const authUser: User = store.state.auth.user;
 const userIsAuthor: boolean = authUser.id === props.message.user.id;
 
 function openSettingsModal(): void {
-  store.commit('setMessageSettings', { showSettings: true, message: props.message});
+  store.commit('setMessageSettings', { showSettings: true, message: props.message });
 }
 
 const settingsWrapperClasses = computed<string>(() => {
   return (userIsAuthor ? '-left-12' : '-right-12 flex-row-reverse') + ' group-hover:flex hidden p-2 h-full absolute items-center justify-end gap-1 opacity-70 w-12';
 });
+
+function setMessageToAnswer(): void {
+  store.commit('setMessageToAnswer', props.message);
+}
 
 </script>
 
@@ -32,15 +37,15 @@ const settingsWrapperClasses = computed<string>(() => {
           <Avatar :size="'small'" :avatar="message.user.avatar_link" />
         </div>
         <div class="flex flex-col gap-2">
-          <Message v-if="message.text" :message="message" :userIsAuthor="userIsAuthor" />
-          <FileWrapper v-if="message.files_links.length > 0" :filesLinks="message.files_links" />
+          <MessageRepliedTo v-if="message.answer_to_message" :message="message" />
+          <Message v-if="message.text" :message="message" :userIsAuthor="userIsAuthor" class="relative" />
+          <FileWrapper v-if="message.files_links.length > 0" :filesLinks="message.files_links" class="relative" />
         </div>
-        <div
-          :class="settingsWrapperClasses">
+        <div :class="settingsWrapperClasses">
           <button v-if="userIsAuthor" @click="openSettingsModal">
             <i class="fa-solid fa-ellipsis-vertical p-2"></i>
           </button>
-          <button>
+          <button @click="setMessageToAnswer" class="p-2">
             <i class="fa-solid fa-reply"></i>
           </button>
         </div>
