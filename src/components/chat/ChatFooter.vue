@@ -18,6 +18,7 @@ const message = ref<Message>({
 
 const showSendButton = ref<boolean>(false);
 const messageSending = ref<boolean>(false);
+const textInput = ref<HTMLInputElement | null>(null);
 
 async function sendMessage(): Promise<void> {
   messageSending.value = true;
@@ -33,9 +34,17 @@ async function sendMessage(): Promise<void> {
   if (!messageService.hasAnyErrors) {
     resetMessage();
     removeMessageToAnswer();
+    focusTextInput();
   }
 
-  changeSendButtonVisibility();
+  changeVisibilityOfSubmitButton();
+}
+
+function focusTextInput(): void {
+  if ( ! textInput.value) return;
+
+  textInput.value.disabled = false;
+  textInput.value.focus();
 }
 
 function resetMessage(): void {
@@ -46,7 +55,7 @@ function resetMessage(): void {
   message.value.answer_to_message = undefined;
 }
 
-function changeSendButtonVisibility(): void {
+function changeVisibilityOfSubmitButton(): void {
   if (message.value.files_links.length > 0)
     showSendButton.value = true;
   else if (message.value.text && message.value.text.length > 0)
@@ -65,7 +74,7 @@ async function addFile(e: Event): Promise<void> {
   }
 
   input.value = '';
-  changeSendButtonVisibility();
+  changeVisibilityOfSubmitButton();
 }
 
 async function removeFile(fileLink: string): Promise<void> {
@@ -76,7 +85,7 @@ async function removeFile(fileLink: string): Promise<void> {
     message.value.files_links.splice(index, 1)
   }
 
-  changeSendButtonVisibility();
+  changeVisibilityOfSubmitButton();
 }
 
 const textInputClasses = computed<string>(() => {
@@ -102,8 +111,8 @@ const textInputClasses = computed<string>(() => {
       </label>
     </div>
     <div class="flex flex-col-reverse w-full overflow-hidden p-3">
-      <input @input="changeSendButtonVisibility" v-model="message.text" :class="textInputClasses" type="text"
-        :disabled="messageSending" placeholder="Type your message ..." />
+      <input ref="textInput" @input="changeVisibilityOfSubmitButton" v-model="message.text" :class="textInputClasses"
+        type="text" :disabled="messageSending" placeholder="Type your message ..." />
       <div v-if="message.files_links.length > 0"
         class="flex gap-2 peer-focus:bg-white peer-focus:border-t shadow-md peer-focus:shadow-none peer-focus:border-r peer-focus:border-l peer-focus:border-b-transparent border border-transparent  peer-focus:border-gray-300 transition duration-300 ease-in overflow-x-auto bg-gray-100 p-3 rounded-tl-2xl rounded-tr-2xl scrollbar-thin scrollbar-thumb-gray-300">
         <FormFile v-for="fileLink in message.files_links" @removeFile="removeFile" :fileLink="fileLink" />
