@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import FormFile from './FormFile.vue'
 import type Message from '@/interfaces/Message';
 import { store } from '@/store';
@@ -19,6 +19,16 @@ const message = ref<Message>({
 const showSendButton = ref<boolean>(false);
 const messageSending = ref<boolean>(false);
 const textInput = ref<HTMLInputElement | null>(null);
+
+watch(
+  () => store.state.components.messageToAnswer,
+  (messageToAnswer?: Message) => {
+    if( ! messageToAnswer)
+      return;
+
+    focusTextInput();
+  }
+)
 
 async function sendMessage(): Promise<void> {
   messageSending.value = true;
@@ -41,7 +51,7 @@ async function sendMessage(): Promise<void> {
 }
 
 function focusTextInput(): void {
-  if ( ! textInput.value) return;
+  if (!textInput.value) return;
 
   textInput.value.disabled = false;
   textInput.value.focus();
